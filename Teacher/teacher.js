@@ -1,31 +1,3 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const sidebarLinks = document.querySelectorAll(".sidebar a");
-
-  sidebarLinks.forEach(link => {
-      link.addEventListener("click", function (event) {
-          event.preventDefault();
-          sidebarLinks.forEach(item => item.classList.remove("active"));
-          this.classList.add("active");
-          const title = this.querySelector("h3").textContent;
-
-          document.title = "Teacher | " + title;
-      });
-  });
-});document.addEventListener("DOMContentLoaded", function () {
-  const sidebarLinks = document.querySelectorAll(".sidebar a");
-
-  sidebarLinks.forEach(link => {
-      link.addEventListener("click", function (event) {
-          event.preventDefault();
-          sidebarLinks.forEach(item => item.classList.remove("active"));
-          this.classList.add("active");
-          const title = this.querySelector("h3").textContent;
-
-          document.title = "Admin | " + title;
-      });
-  });
-});
-
 const sideMenu = document.querySelector("aside");
 const menuBtn = document.querySelector("#menu-btn");
 const closeBtn = document.querySelector("#close-btn");
@@ -397,43 +369,56 @@ document.addEventListener("DOMContentLoaded", () => {
     const rollNumber = rollNumberInput.value.trim();
 
     try {
-      const response = await fetch("../json/studentAttendance.json");
+      const response = await fetch(
+        `http://localhost:8080/attendance/admin/collegeId/${rollNumber}`
+      );
       const data = await response.json();
 
-      const student = data.students.find(
-        (student) => student.roll_number === rollNumber
-      );
-      if (student) {
-        const { name, batch, semester, section, subjects } = student;
+      const {
+        name,
+        rollNo,
+        collegeId,
+        batch,
+        sem,
+        section,
+        studentSubjectAttendanceResponseList,
+      } = data;
 
-        document.getElementById("student-attendance-report-name").textContent =
-          name;
-        document.getElementById("student-attendance-report-roll").textContent =
-          rollNumber;
-        document.getElementById("student-attendance-report-batch").textContent =
-          batch;
-        document.getElementById(
-          "student-attendance-report-semester"
-        ).textContent = semester;
-        document.getElementById(
-          "student-attendance-report-section"
-        ).textContent = section;
+      document.getElementById("student-attendance-report-name").textContent =
+        name;
+      document.getElementById("student-attendance-report-roll").textContent =
+        rollNo;
+      document.getElementById(
+        "student-attendance-report-collegeId"
+      ).textContent = collegeId;
+      document.getElementById("student-attendance-report-batch").textContent =
+        batch;
+      document.getElementById(
+        "student-attendance-report-semester"
+      ).textContent = sem;
+      document.getElementById("student-attendance-report-section").textContent =
+        section;
 
-        attendanceTableBody.innerHTML = "";
-        subjects.forEach((subject) => {
-          const row = attendanceTableBody.insertRow();
-          const subjectCell = row.insertCell(0);
-          const attendanceCell = row.insertCell(1);
+      const tbody = document.getElementById("student-attendance-tableBody");
+      tbody.innerHTML = "";
 
-          subjectCell.textContent = subject.subject;
-          attendanceCell.textContent = subject.attendance;
-        });
+      studentSubjectAttendanceResponseList.forEach((subject) => {
+        const row = tbody.insertRow();
+        const subjectCell = row.insertCell(0);
+        const subjectNameCell = row.insertCell(1);
+        const totalClassCell = row.insertCell(2);
+        const presentClassCell = row.insertCell(3);
+        const percentageCell = row.insertCell(4);
 
-        studentAttendanceReport.style.display = "block";
-        studentAttendanceForm.style.display = "none";
-      } else {
-        alert("Student with the provided roll number not found.");
-      }
+        subjectCell.textContent = subject.subCode;
+        subjectNameCell.textContent = subject.subName;
+        totalClassCell.textContent = subject.totalClass;
+        presentClassCell.textContent = subject.presentClass;
+        percentageCell.textContent = subject.percentage;
+      });
+
+      studentAttendanceReport.style.display = "block";
+      studentAttendanceForm.style.display = "none";
     } catch (error) {
       console.error("Error fetching student details:", error);
       alert("Error fetching student details. Please try again later.");
@@ -457,21 +442,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const response = await fetch("../json/subjects.json");
+      const response = await fetch(
+        `http://localhost:8080/subject?batch=${selectedBatch}&sem=${selectedSemester}`
+      );
       const data = await response.json();
 
-      if (
-        data.hasOwnProperty(selectedBatch) &&
-        data[selectedBatch].hasOwnProperty(selectedSemester)
-      ) {
-        const subjects = data[selectedBatch][selectedSemester];
-
-        subjects.forEach((subject) => {
+      if (Array.isArray(data) && data.length > 0) {
+        data.forEach((subject) => {
           const option = document.createElement("option");
-          option.value = subject;
-          option.textContent = subject;
+          option.value = subject.subCode;
+          option.textContent = subject.subCode + "  " + subject.subName;
           subjectSelect.appendChild(option);
         });
+
+        // Update the section in the attendance report
+        document.getElementById("reportSection").textContent = selectedSection;
 
         giveAttendendanceForm1.style.display = "none";
         giveAttendendanceForm2.style.display = "block";
@@ -500,9 +485,31 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       reportBatch.textContent = selectedBatch;
       reportSemester.textContent = selectedSemester;
-      reportSection.textContent = section;
+      reportSection.textContent = selectedSection;
       reportSubject.textContent = subject;
       reportDate.textContent = date;
+
+      // Fetch attendance data from the API
+      const url = `http://localhost:8080/attendance?batch=${selectedBatch}&section=${selectedSection}&date=${date}&subCode=${subject}`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      // Update the table with attendance data
+      const tbody = document.querySelector("#data-table tbody");
+      tbody.innerHTML = ""; // Clear existing rows
+      data.presentStatusResponseList.forEach((student) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${student.collegeId}</td>
+          <td>${student.rollNo}</td>
+          <td>${student.name}</td>
+          <td><input type="checkbox" ${student.status ? "checked" : ""}></td>
+          <td>${student.totalPresentClass}</td>
+          <td>${student.percentage}</td>
+        `;
+        row.dataset.collegeId = student.collegeId; // Add collegeId as dataset
+        tbody.appendChild(row);
+      });
 
       showSuccessToast("Attendance logged successfully.");
     } catch (error) {
@@ -512,6 +519,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
     giveAttendanceReport.style.display = "block";
     giveAttendendanceForm2.style.display = "none";
+  });
+
+  // Add event listener for form submission to send data to the server
+  giveAttendanceReport.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const presentStatusRequests = [];
+
+    // Iterate over checkboxes to gather updated data
+    document
+      .querySelectorAll("#data-table input[type='checkbox']")
+      .forEach((checkbox) => {
+        presentStatusRequests.push({
+          collegeId: checkbox.closest("tr").dataset.collegeId,
+          status: checkbox.checked,
+        });
+      });
+
+    const requestBody = {
+      batch: selectedBatch,
+      section: selectedSection,
+      subCode: reportSubject.textContent,
+      date: reportDate.textContent,
+      presentStatusRequests: presentStatusRequests,
+    };
+
+    try {
+      const postResponse = await fetch("http://localhost:8080/attendance", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (postResponse.ok) {
+        showSuccessToast("Attendance submitted successfully.");
+      } else {
+        showErrorToast("Failed to submit attendance. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting attendance:", error);
+      showErrorToast("Error submitting attendance. Please try again.");
+    }
   });
 
   homeButtonStudent.addEventListener("click", () => {
@@ -669,65 +720,23 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Function to generate static data for the table with checkboxes in the Attendance column
-function generateStaticData() {
-  var staticData = [];
-
-  // Generate 20 static data entries
-  for (var i = 1; i <= 20; i++) {
-    staticData.push({
-      rollNo: i,
-      student: "Student " + i,
-      attendance: "", // Empty string for checkbox (to be populated dynamically)
-      totalPresent: Math.floor(Math.random() * 25), // Random total present value for demonstration
-      percentage: Math.floor(Math.random() * 100) + "%", // Random percentage for demonstration
-    });
-  }
-
-  // Get the table body
-  var tbody = document.querySelector("#data-table tbody");
-  // Clear any existing rows
-  tbody.innerHTML = "";
-  // Loop through the static data and populate the table
-  staticData.forEach(function (item) {
-    var row = tbody.insertRow();
-    Object.entries(item).forEach(function ([key, value]) {
-      var cell = row.insertCell();
-      if (key === "attendance") {
-        // For the "Attendance" column, create a checkbox
-        var checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.name = "attendance"; // Set name attribute for grouping
-        checkbox.value = "present"; // Set value attribute as needed
-        cell.appendChild(checkbox);
-      } else {
-        // For other columns, just populate the text content
-        cell.textContent = value;
-      }
-    });
-  });
-}
-
-// Call generateStaticData() when the page loads to populate the table with static data and checkboxes
-document.addEventListener("DOMContentLoaded", generateStaticData);
-
 // Function to set the maximum date for the date input field based on the current IST date and time
 function setMaxDate() {
-    var now = new Date(); // Current UTC date and time
-    var istOffset = 330; // IST offset in minutes (+5:30)
-    now.setMinutes(now.getMinutes() + istOffset); // Convert UTC to IST
-  
-    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    var tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1); // Increment the day by 1
-  
-    document.getElementById("date").max = tomorrow.toISOString().split("T")[0];
-  }
-  
-  // Set max date on page load and adjust as necessary
-  document.addEventListener("DOMContentLoaded", setMaxDate);
-  
-  // Attach the transferData() function to the form's submit event
-  document.getElementById("submit").addEventListener("click", function(event) {
-    transferData(event);
-  });
+  var now = new Date(); // Current UTC date and time
+  var istOffset = 330; // IST offset in minutes (+5:30)
+  now.setMinutes(now.getMinutes() + istOffset); // Convert UTC to IST
+
+  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  var tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1); // Increment the day by 1
+
+  document.getElementById("date").max = tomorrow.toISOString().split("T")[0];
+}
+
+// Set max date on page load and adjust as necessary
+document.addEventListener("DOMContentLoaded", setMaxDate);
+
+// Attach the transferData() function to the form's submit event
+document.getElementById("submit").addEventListener("click", function (event) {
+  transferData(event);
+});
