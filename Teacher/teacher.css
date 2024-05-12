@@ -615,10 +615,11 @@ header .current-date {
 }
 
 .attendance form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 25px 30px;
+  display: block;
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: var(--card-border-radius);
+  transition: background-color 0.3s;
 }
 
 .attendance label {
@@ -658,12 +659,16 @@ header .current-date {
 
 @media screen and (max-width: 1200px) {
   .attendance {
-    width: 450px;
+    width: 90%;
     margin-top: 2rem;
   }
 
   .attendance form {
-    padding: 20px;
+    display: block;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: var(--card-border-radius);
+    transition: background-color 0.3s;
   }
 
   .attendance select {
@@ -703,7 +708,11 @@ header .current-date {
   }
 
   .attendance form {
+    display: block;
+    margin-top: 20px;
     padding: 15px;
+    border-radius: var(--card-border-radius);
+    transition: background-color 0.3s;
   }
 
   .attendance select {
@@ -751,56 +760,39 @@ header .current-date {
   margin-top: 0.6rem;
 }
 
-.student-attendance-report {
-  display: block;
-  margin-top: 20px;
-  padding: 15px;
-  border-radius: var(--card-border-radius);
-  transition: background-color 0.3s;
-}
-
-.student-attendance-report p {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #7380ec;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.student-attendance-report label {
-  font-weight: bold;
-  color: #363949;
-  margin-right: 10px;
-  color: var(--color-dark);
-}
-
-.student-attendance-report div {
-  margin-bottom: 10px;
-  color: var(--color-dark);
-}
-
 .student-attendance-report table {
   border: 1px solid var(--color-dark);
   color: var(--color-dark);
   text-align: center;
+  border-collapse: collapse;
+  width: 100%;
 }
 
 .student-attendance-report table th {
-  padding: 0.4rem;
+  padding: 1rem 2rem;
   border: 1px solid var(--color-dark);
+  background-color: var(--color-background);
+  font-size: 1rem;
 }
 
 .student-attendance-report table td {
-  padding: 0.4rem;
+  padding: 1rem 4rem;
   border: 1px solid var(--color-dark);
 }
 
-.student-attendance-report table td {
-  width: 75%;
+.student-attendance-report table tr:nth-child(even) {
+  background-color: var(--color-background);
 }
 
-.student-attendance-report table td:nth-child(even) {
-  width: 25%;
+.student-attendance-report input[type="checkbox" i] {
+  width: calc(100% - 11px);
+  background-color: initial;
+  cursor: default;
+  appearance: auto;
+  box-sizing: border-box;
+  margin: 3px 3px 3px 4px;
+  padding: initial;
+  border: initial;
 }
 
 .give-attendance-report {
@@ -965,36 +957,6 @@ header .current-date {
   margin-right: 10px;
 }
 
-.table-container {
-  padding: 0.4rem;
-  border: 1px solid var(--color-dark);
-  border-radius: 8px;
-}
-
-.table-container th {
-  padding: 0.4rem;
-  border: 1px solid var(--color-dark);
-  border-radius: 6px;
-}
-
-.table-container td {
-  padding: 0.4rem;
-  border: 1px solid var(--color-dark);
-  text-align: center;
-  border-radius: 6px;
-}
-
-.table-container input[type="checkbox" i] {
-  width: calc(100% - 11px);
-  background-color: initial;
-  cursor: default;
-  appearance: auto;
-  box-sizing: border-box;
-  margin: 3px 3px 3px 4px;
-  padding: initial;
-  border: initial;
-}
-
 .submit-button-container {
   margin-top: 10px;
   padding: 8px 16px;
@@ -1012,8 +974,8 @@ header .current-date {
 }
 
 #data-table th {
-  background-color: #007bff;
-  color: #fff;
+  background-color: var(--color-background);
+  color: var(--color-dark);
   position: sticky;
   top: 0;
 }
