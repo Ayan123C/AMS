@@ -602,7 +602,7 @@ header .current-date{
 
 .search {
     margin-top: 2rem;
-    width: 450px;
+    width: 70%;
     box-shadow: var(--box-shadow);
     background: var(--color-white);
     padding: var(--card-padding);
@@ -657,7 +657,7 @@ header .current-date{
 
 @media screen and (max-width: 1200px) {
     .search {
-        width: 450px;
+        width: 90%;
         margin-top: 2rem;
     }
 
@@ -744,16 +744,24 @@ header .current-date{
     border: 1px solid var(--color-dark);
     color: var(--color-dark);
     text-align: center;
+    border-collapse: collapse;
+    width: 100%;
 }
 
 .class-search-report table th {
-    padding: 0.4rem;
+    padding: 1rem 2rem;
     border: 1px solid var(--color-dark);
+    background-color: var(--color-background);
+    font-size: 1rem;
 }
 
 .class-search-report table td {
-    padding: 0.4rem;
+    padding: 1rem 2rem;
     border: 1px solid var(--color-dark);
+}
+
+.class-search-report table tr:nth-child(even) {
+    background-color: var(--color-background);
 }
 
 .teacher-search-report {
@@ -814,7 +822,7 @@ header .current-date{
 
 .attendance {
     margin-top: 2rem;
-    width: 450px;
+    width: 70%;
     box-shadow: var(--box-shadow);
     background: var(--color-white);
     padding: var(--card-padding);
@@ -869,7 +877,7 @@ header .current-date{
 
 @media screen and (max-width: 1200px) {
     .attendance {
-        width: 450px;
+        width: 90%;
         margin-top: 2rem;
     }
 
@@ -960,24 +968,24 @@ header .current-date{
     border: 1px solid var(--color-dark);
     color: var(--color-dark);
     text-align: center;
+    border-collapse: collapse;
+    width: 100%;
 }
 
 .student-attendance-report table th {
-    padding: 0.4rem;
+    padding: 1rem 2rem;
     border: 1px solid var(--color-dark);
+    background-color: var(--color-background);
+    font-size: 1rem;
 }
 
 .student-attendance-report table td {
-    padding: 0.4rem;
+    padding: 1rem 2rem;
     border: 1px solid var(--color-dark);
 }
 
-.student-attendance-report table td {
-    width: 75%;
-}
-
-.student-attendance-report table td:nth-child(even) {
-    width: 25%;
+.student-attendance-report table tr:nth-child(even) {
+    background-color: var(--color-background);
 }
 
 .class-attendance-report {
@@ -1012,24 +1020,24 @@ header .current-date{
     border: 1px solid var(--color-dark);
     color: var(--color-dark);
     text-align: center;
+    border-collapse: collapse;
+    width: 100%;
 }
 
 .class-attendance-report table th {
-    padding: 0.4rem;
+    padding: 1rem 2rem;
     border: 1px solid var(--color-dark);
+    background-color: var(--color-background);
+    font-size: 1rem;
 }
 
 .class-attendance-report table td {
-    padding: 0.4rem;
+    padding: 1rem 2rem;
     border: 1px solid var(--color-dark);
 }
 
-.class-attendance-report table td {
-    width: 50%;
-}
-
-.class-attendance-report table td:nth-child(even) {
-    width: 25%;
+.class-attendance-report table tr:nth-child(even) {
+    background-color: var(--color-background);
 }
 
 .subjects-attendance-report {
@@ -1064,24 +1072,24 @@ header .current-date{
     border: 1px solid var(--color-dark);
     color: var(--color-dark);
     text-align: center;
+    border-collapse: collapse;
+    width: 100%;
 }
 
 .subjects-attendance-report table th {
-    padding: 0.4rem;
+    padding: 1rem 2rem;
     border: 1px solid var(--color-dark);
+    background-color: var(--color-background);
+    font-size: 1rem;
 }
 
 .subjects-attendance-report table td {
-    padding: 0.4rem;
+    padding: 1rem 2rem;
     border: 1px solid var(--color-dark);
 }
 
-.subjects-attendance-report table td {
-    width: 75%;
-}
-
-.subjects-attendance-report table td:nth-child(even) {
-    width: 25%;
+.subjects-attendance-report table tr:nth-child(even) {
+    background-color: var(--color-background);
 }
 
 .routin {
@@ -1562,7 +1570,7 @@ header .current-date{
 
 .managesubjects {
     margin-top: 2rem;
-    width: 450px;
+    width: 70%;
     box-shadow: var(--box-shadow);
     background: var(--color-white);
     padding: var(--card-padding);
@@ -1617,7 +1625,7 @@ header .current-date{
 
 @media screen and (max-width: 1200px) {
     .managesubjects {
-        width: 450px;
+        width: 90%;
         margin-top: 2rem;
     }
 
@@ -1708,16 +1716,24 @@ header .current-date{
     border: 1px solid var(--color-dark);
     color: var(--color-dark);
     text-align: center;
+    border-collapse: collapse;
+    width: 100%;
 }
 
 .showsubjects-report table th {
-    padding: 0.4rem;
+    padding: 1rem 2rem;
     border: 1px solid var(--color-dark);
+    background-color: var(--color-background);
+    font-size: 1rem;
 }
 
 .showsubjects-report table td {
-    padding: 0.4rem;
+    padding: 1rem 2rem;
     border: 1px solid var(--color-dark);
+}
+
+.showsubjects-report table tr:nth-child(even) {
+    background-color: var(--color-background);
 }
 
 .showsubjects-report table td {
