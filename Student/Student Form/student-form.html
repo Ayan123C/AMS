@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMS | Student Form</title>
+    <link rel="stylesheet" href="student-form.css">
+</head>
+
+<body>
+    <form action="" method="post" class="form">
+        <h1 class="text-center">Student Details</h1>
+        <!-- Progress bar -->
+        <div class="progressbar">
+            <div class="progress" id="progress"></div>
+            <div class="progress-step progress-step-active"></div>
+            <div class="progress-step"></div>
+            <div class="progress-step"></div>
+            <div class="progress-step"></div>
+        </div>
+        <div class="form-step form-step-active">
+            <div class="box">
+                <h3><span class="indexing">1</span> Account Information<span class="asterisk">*</span></h3>
+                <div class="inner-box">
+                    <div>
+                        <div class="input-group">
+                            <!-- <label for="first-name">First Name:</label> -->
+                            <input type="text" name="first-name" id="first-name" placeholder="First Name">
+                        </div>
+                        <div class="input-group">
+                            <!-- <label for="last-name">Last Name:</label> -->
+                            <input type="text" name="last-name" id="last-name" placeholder="Last Name">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="input-group">
+                            <!-- <label for="batch">Batch:</label> -->
+                            <input type="text" name="batch" id="batch" placeholder="Batch">
+                        </div>
+                        <div class="input-group">
+                            <!-- <label for="sem">Semester:</label> -->
+                            <input type="text" name="sem" id="sem" placeholder="Semester">
+                        </div>
+                        <div class="input-group">
+                            <!-- <label for="dept">Department:</label> -->
+                            <input type="text" name="dept" id="dept" placeholder="Department">
+                        </div>
+                    </div>
+                    <div><div class="input-group">
+                        <!-- <label for="roll">Roll No:</label> -->
+                        <input type="text" name="roll" id="roll" placeholder="Roll No">
+                    </div>
+                    <div class="input-group">
+                        <!-- <label for="reg">Registration No:</label> -->
+                        <input type="text" name="reg" id="reg" placeholder="Registration No">
+                    </div></div>
+                </div>
+            </div>
+            <div class="box">
+                <h3><span class="indexing">2</span> Personal Information<span class="asterisk">*</span></h3>
+                <div class="inner-box">
+                    <div><div class="input-group">
+                        <!-- <label for="p-phone">Phone No:</label> -->
+                        <input type="text" name="p-phone" id="p-phone" placeholder="Phone No">
+                    </div>
+                    <div class="input-group">
+                        <!-- <label for="p-email">Email ID:</label> -->
+                        <input type="text" name="p-email" id="p-email" placeholder="Email ID">
+                    </div></div>
+                    <div><div class="input-group">
+                        <!-- <label for="dob">Date of Birth:</label> -->
+                        <input type="text" name="dob" id="dob" placeholder="Date of Birth">
+                    </div>
+                    <div class="input-group">
+                        <!-- <label for="blood-group">Blood Group:</label> -->
+                        <input type="text" name="blood-group" id="blood-group" placeholder="Blood Group">
+                    </div></div>
+                </div>
+            </div>
+            <div class="box">
+                <h3><span class="indexing">3</span> Address Information<span class="asterisk">*</span></h3>
+                <div class="inner-box address">
+                    <div class="input-group">
+                        <!-- <label for="present-add">Present Address:</label> -->
+                        <input type="text" name="present-add" id="present-add" placeholder="Present Address">
+                    </div>
+                    <div><div class="input-group">
+                        <!-- <label for="present-city">City:</label> -->
+                        <input type="text" name="present-city" id="present-city" placeholder="City">
+                    </div>
+                    <div class="input-group">
+                        <!-- <label for="present-state">State:</label> -->
+                        <input type="text" name="present-state" id="present-state" placeholder="State">
+                    </div>
+                    <div class="input-group">
+                        <!-- <label for="present-pin">PIN code:</label> -->
+                        <input type="text" name="present-pin" id="present-pin" placeholder="PIN code">
+                    </div></div>
+                </div>
+                <div class="inner-box address">
+                    <div class="input-group">
+                        <!-- <label for="present-add">Present Address:</label> -->
+                        <input type="text" name="permanent-add" id="permanent-add" placeholder="Permanent Address">
+                    </div>
+                    <div><div class="input-group">
+                        <!-- <label for="permanent-city">City:</label> -->
+                        <input type="text" name="permanent-city" id="permanent-city" placeholder="City">
+                    </div>
+                    <div class="input-group">
+                        <!-- <label for="permanent-state">State:</label> -->
+                        <input type="text" name="permanent-state" id="permanent-state" placeholder="State">
+                    </div>
+                    <div class="input-group">
+                        <!-- <label for="permanent-pin">PIN code:</label> -->
+                        <input type="text" name="permanent-pin" id="permanent-pin" placeholder="PIN code">
+                    </div></div>
+                </div>
+            </div>
+            <div class="btns-group">
+                <a href="#" class="btn btn-cancel">Cancel</a>
+                <a href="#" class="btn btn-next">Next</a>
+            </div>
+        </div>
+        <div class="form-step">
+            <div class="box">
+                <h3><span class="indexing">4</span> Guardian Information<span class="asterisk">*</span></h3>
+                <div class="inner-box">
+                    <div><div class="input-group">
+                        <!-- <label for="g-first-name">Guardian First Name:</label> -->
+                        <input type="text" name="g-first-name" id="g-first-name" placeholder="Guardian First Name">
+                    </div>
+                    <div class="input-group">
+                        <!-- <label for="g-last-name">Guardian Last Name:</label> -->
+                        <input type="text" name="g-last-name" id="g-last-name" placeholder="Guardian Last Name">
+                    </div></div>
+                    <div><div class="input-group">
+                        <!-- <label for="g-phone">Phone No:</label> -->
+                        <input type="text" name="g-phone" id="g-phone" placeholder="Phone No">
+                    </div>
+                    <div class="input-group">
+                        <!-- <label for="g-email">Email ID:</label> -->
+                        <input type="text" name="g-email" id="g-email" placeholder="Email ID">
+                    </div></div>
+                </div>
+                <div class="inner-box">
+                    <div class="input-group">
+                        <!-- <label for="g-add">Present Address:</label> -->
+                        <input type="text" name="g-add" id="g-add" placeholder="Present Address">
+                    </div>
+                    <div><div class="input-group">
+                        <!-- <label for="g-pin">PIN code:</label> -->
+                        <input type="text" name="g-pin" id="g-pin" placeholder="PIN code">
+                    </div>
+                    <div class="input-group">
+                        <!-- <label for="g-city">City:</label> -->
+                        <input type="text" name="g-city" id="g-city" placeholder="City">
+                    </div>
+                    <div class="input-group">
+                        <!-- <label for="g-state">State:</label> -->
+                        <input type="text" name="g-state" id="g-state" placeholder="State">
+                    </div></div>
+                </div>
+            </div>
+            <div class="box">
+                <h3><span class="indexing">5</span> Current Co-ordinates</h3>
+                <div class="inner-box">
+                    <div class="input-group">
+                        <!-- <label for="co-add">Present Address:</label> -->
+                        <input type="text" name="co-add" id="co-add" placeholder="Present Address">
+                    </div>
+                    <div><div class="input-group">
+                        <!-- <label for="co-pin">PIN code:</label> -->
+                        <input type="text" name="co-pin" id="co-pin" placeholder="PIN code">
+                    </div>
+                    <div class="input-group">
+                        <!-- <label for="co-city">City:</label> -->
+                        <input type="text" name="co-city" id="co-city" placeholder="City">
+                    </div>
+                    <div class="input-group">
+                        <!-- <label for="co-state">State:</label> -->
+                        <input type="text" name="co-state" id="co-state" placeholder="State">
+                    </div></div>
+                </div>
+            </div>
+            <div class="box">
+                <h3><span class="indexing">6</span> Current Contact</h3>
+                <div class="inner-box">
+                    <div><div class="input-group">
+                        <!-- <label for="co-phone">Current Phone No:</label> -->
+                        <input type="text" name="co-phone" id="co-phone" placeholder="Current Phone No">
+                    </div>
+                    <div class="input-group">
+                        <!-- <label for="co-email">Current Email Address:</label> -->
+                        <input type="text" name="co-email" id="co-email" placeholder="Current Email Address">
+                    </div></div>
+                </div>
+            </div>
+            <div class="btns-group">
+                <a href="#" class="btn btn-cancel">Cancel</a>
+                <a href="#" class="btn btn-prev">Previous</a>
+                <a href="#" class="btn btn-next">Next</a>
+            </div>
+        </div>
+        <div class="form-step">
+            <div class="box">
+                <h3><span class="indexing">7</span> Marks Obtained<span class="asterisk">*</span></h3>
+                <div class="inner-box">
+                    <div><div class="input-group">
+                        <!-- <label for="marks-10">Class X:</label> -->
+                        <input type="text" name="marks-10" id="marks-10" placeholder="Class X">
+                    </div>
+                    <div class="input-group">
+                        <!-- <label for="marks-12">Class X:</label> -->
+                        <input type="text" name="marks-12" id="marks-12" placeholder="Class X">
+                    </div>
+                    <div class="input-group">
+                        <!-- <label for="marks-diploma">Diploma:</label> -->
+                        <input type="text" name="marks-diploma" id="marks-diploma" placeholder="Diploma">
+                    </div></div>
+                </div>
+            </div>
+            <div class="box">
+                <h3><span class="indexing">8</span> HS Marks Information<span class="asterisk">*</span></h3>
+                <div class="inner-box" id="hs-marks">
+                    <div>
+                        <div class="input-group">
+                            <label for="marks-eng">English:</label>
+                            <input type="text" name="marks-eng" id="marks-eng" placeholder="Full Marks">
+                            <input type="text" name="marks-eng" id="marks-eng" placeholder="Obtained Marks">
+                        </div>
+                    </div>
+                    <div><div class="input-group">
+                        <label for="marks-phy">Physics:</label>
+                        <input type="text" name="marks-phy" id="marks-phy" placeholder="Full Marks">
+                        <input type="text" name="marks-phy" id="marks-phy" placeholder="Obtained Marks">
+                    </div></div>
+                    <div><div class="input-group">
+                        <label for="marks-math">Math:</label>
+                        <input type="text" name="marks-math" id="marks-math" placeholder="Full Marks">
+                        <input type="text" name="marks-math" id="marks-math" placeholder="Obtained Marks">
+                    </div></div>
+                    <div><div class="input-group">
+                        <label for="marks-chem">Chemistry:</label>
+                        <input type="text" name="marks-chem" id="marks-chem" placeholder="Full Marks">
+                        <input type="text" name="marks-chem" id="marks-chem" placeholder="Obtained Marks">
+                    </div></div>
+                </div>
+            </div>
+            <div class="btns-group">
+                <a href="#" class="btn btn-cancel">Cancel</a>
+                <a href="#" class="btn btn-prev">Previous</a>
+                <a href="#" class="btn btn-next">Next</a>
+            </div>
+        </div>
+        <div class="form-step">
+            <div class="box">
+                <h3><span class="indexing">9</span> SGPA Information</h3>
+                <div class="inner-box">
+                    <div class="input-group" id="sgpa">
+                        <input type="number" name="sem-1" id="sem-1" placeholder="SEMESTER 1">
+                        <input type="number" name="sem-2" id="sem-2" placeholder="SEMESTER 2">
+                        <input type="number" name="sem-3" id="sem-3" placeholder="SEMESTER 3">
+                        <input type="number" name="sem-4" id="sem-4" placeholder="SEMESTER 4">
+                        <input type="number" name="sem-5" id="sem-5" placeholder="SEMESTER 5">
+                        <input type="number" name="sem-6" id="sem-6" placeholder="SEMESTER 6">
+                        <input type="number" name="sem-7" id="sem-7" placeholder="SEMESTER 7">
+                        <input type="number" name="sem-8" id="sem-8" placeholder="SEMESTER 8">
+                    </div>
+                </div>
+            </div>
+            <div class="btns-group">
+                <a href="#" class="btn btn-cancel">Cancel</a>
+                <a href="#" class="btn btn-prev">Previous</a>
+                <a href="#" class="btn btn-submit">Submit</a>
+            </div>
+        </div>
+    </form>
+    <script src="student-form.js"></script>
+</body>
+
+</html>
