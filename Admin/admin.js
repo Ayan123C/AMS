@@ -714,7 +714,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const newReportDiv = document.querySelector('.new-routin-report');
     const updateReportDiv = document.querySelector('.update-routin-report');
 
-    const newHomeButton = document.querySelector('.new-routin-report .routinBtn[type="reset"]:last-of-type');
+    const newHomeButton = document.querySelector('.new-routin-report .routinBtn[type="button"]:last-of-type');
     const updateHomeButton = document.querySelector('.update-routin-report .routinBtn');
     const cancelButtons = document.querySelectorAll('.routinBtn[type="reset"]');
     
