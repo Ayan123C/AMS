@@ -714,9 +714,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const newReportDiv = document.querySelector('.new-routin-report');
     const updateReportDiv = document.querySelector('.update-routin-report');
 
-    const newHomeButton = document.querySelector('.new-routin-report .routinBtn');
+    const newHomeButton = document.querySelector('.new-routin-report .routinBtn[type="reset"]:last-of-type');
     const updateHomeButton = document.querySelector('.update-routin-report .routinBtn');
     const cancelButtons = document.querySelectorAll('.routinBtn[type="reset"]');
+    
+    const submitAnotherButton = document.querySelector('.new-routin-report .routinBtn[type="button"]');
 
     const showForm = (formToShow, formToHide) => {
         formToShow.style.display = 'block';
@@ -805,6 +807,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 reportBatch.textContent = selectedBatch;
                 reportSemester.textContent = selectedSemester;
                 reportSection.textContent = selectedSection;
+                        
+                const assigningDetailsBatch = document.getElementById('assigning-details-batch');
+                const assigningDetailsSemester = document.getElementById('assigning-details-semester');
+                const assigningDetailsSection = document.getElementById('assigning-details-section');
+
+                assigningDetailsBatch.textContent = selectedBatch;
+                assigningDetailsSemester.textContent = selectedSemester;
+                assigningDetailsSection.textContent = selectedSection;
 
                 newRoutinForm1.style.display = 'none';
                 newRoutinForm2.style.display = 'block';
@@ -822,12 +832,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData(event.target);
         const selectedDay = formData.get('newRoutinDay');
         const selectedSubject = formData.get('newRoutinSubject');
+        const selectedClassType = formData.get('newRoutinClassType')
         const selectedTeacherId = formData.get('newRoutinTeacher');
         const selectedStartTime = formData.get('newRoutinStartTime');
         const selectedEndTime = formData.get('newRoutinEndTime');
         const selectedRoomNo = formData.get('newRoutinRoomNo');
 
-        if (!selectedDay || !selectedSubject || !selectedTeacherId || !selectedStartTime || !selectedEndTime || !selectedRoomNo) {
+        if (!selectedDay || !selectedSubject || !selectedClassType || !selectedTeacherId || !selectedStartTime || !selectedEndTime || !selectedRoomNo) {
             showWarningToast('Please fill in all fields.');
             return;
         }
@@ -843,6 +854,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const newReportDay = document.getElementById('new-routin-report-day');
             const newReportSubject = document.getElementById('new-routin-report-subject');
+            const newReportClassType = document.getElementById('new-routin-report-class-type');
             const newReportTeacher = document.getElementById('new-routin-report-teacher');
             const newReportStartTime = document.getElementById('new-routin-report-startTime');
             const newReportEndTime = document.getElementById('new-routin-report-endTime');
@@ -850,6 +862,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             newReportDay.textContent = selectedDay;
             newReportSubject.textContent = selectedSubject;
+            newReportClassType.textContent = selectedClassType;
             newReportTeacher.textContent = selectedTeacherName;
             newReportStartTime.textContent = selectedStartTime;
             newReportEndTime.textContent = selectedEndTime;
@@ -862,6 +875,36 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error processing New Routin:', error);
             showErrorToast('Error processing New Routin. Please try again.');
         }
+    });
+
+    submitAnotherButton.addEventListener('click', () => {
+        newReportDiv.style.display = 'none';
+        newRoutinForm2.style.display = 'block';
+
+        // Reset other data in newRoutinForm2
+        document.getElementById('newRoutinDay').selectedIndex = 0;
+        document.getElementById('newRoutinSubject').selectedIndex = 0;
+        document.getElementById('newRoutinClassType').selectedIndex = 0;
+        document.getElementById('newRoutinTeacher').selectedIndex = 0;
+        document.getElementById('newRoutinStartTime').selectedIndex = 0;
+        document.getElementById('newRoutinEndTime').selectedIndex = 0;
+        document.getElementById('newRoutinRoomNo').selectedIndex = 0;
+
+        const assigningDetailsBatch = document.getElementById('assigning-details-batch');
+        const assigningDetailsSemester = document.getElementById('assigning-details-semester');
+        const assigningDetailsSection = document.getElementById('assigning-details-section');
+
+        const newRoutinBatchSelect = document.getElementById('newRoutinBatch');
+        const newRoutinSemesterSelect = document.getElementById('newRoutinSemester');
+        const newRoutinSectionSelect = document.getElementById('newRoutinSection');
+
+        const selectedBatch = assigningDetailsBatch.textContent;
+        const selectedSemester = assigningDetailsSemester.textContent;
+        const selectedSection = assigningDetailsSection.textContent;
+
+        newRoutinBatchSelect.value = selectedBatch;
+        newRoutinSemesterSelect.value = selectedSemester;
+        newRoutinSectionSelect.value = selectedSection;
     });
 
     fetch('../json/teachers.json')
@@ -952,12 +995,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData(event.target);
         const selectedDay = formData.get('updateRoutinDay');
         const selectedSubject = formData.get('updateRoutinSubject');
+        const selectClassType = formData.get('updateRoutinClassType');
         const selectedTeacherId = formData.get('updateRoutinTeacher');
         const selectedStartTime = formData.get('updateRoutinStartTime');
         const selectedEndTime = formData.get('updateRoutinEndTime');
         const selectedRoomNo = formData.get('updateRoutinRoomNo');
     
-        if (!selectedDay || !selectedSubject || !selectedTeacherId || !selectedStartTime || !selectedEndTime || !selectedRoomNo) {
+        if (!selectedDay || !selectedSubject || !selectClassType || !selectedTeacherId || !selectedStartTime || !selectedEndTime || !selectedRoomNo) {
             showWarningToast('Please fill in all fields.');
             return;
         }
@@ -973,6 +1017,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
             const updateReportDay = document.getElementById('update-routin-report-day');
             const updateReportSubject = document.getElementById('update-routin-report-subject');
+            const updateReportClasstype = document.getElementById('update-routin-report-class-type');
             const updateReportTeacher = document.getElementById('update-routin-report-teacher');
             const updateReportStartTime = document.getElementById('update-routin-report-startTime');
             const updateReportEndTime = document.getElementById('update-routin-report-endTime');
@@ -980,6 +1025,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
             updateReportDay.textContent = selectedDay;
             updateReportSubject.textContent = selectedSubject;
+            updateReportClasstype.textContent = selectClassType;
             updateReportTeacher.textContent = selectedTeacherName;
             updateReportStartTime.textContent = selectedStartTime;
             updateReportEndTime.textContent = selectedEndTime;

@@ -526,6 +526,21 @@
                     </form>
                     <form id="newRoutinForm2" action="/submit" method="post" style="display: none;">
                         <div class="new-routin-from">
+                            <div class="assign-details">
+                                <p>Assigning routing for</p>
+                                <div>
+                                    <label for="assigning-details-batch">Batch:</label>
+                                    <span id="assigning-details-batch"></span>
+                                </div>
+                                <div>
+                                    <label for="assigning-details-semester">Semester:</label>
+                                    <span id="assigning-details-semester"></span>
+                                </div>
+                                <div>
+                                    <label for="assigning-details-section">Section:</label>
+                                    <span id="assigning-details-section"></span>
+                                </div>
+                            </div>
                             <label for="newRoutinDay">Select Day:</label>
                             <select id="newRoutinDay" name="newRoutinDay">
                                 <option value="">Search</option>
@@ -539,6 +554,13 @@
                             <label for="newRoutinSubject">Select Subject:</label>
                             <select id="newRoutinSubject" name="newRoutinSubject">
                                 <option value="">Search</option>
+                            </select>
+
+                            <label for="newRoutinClassType">Select Class Type:</label>
+                            <select id="newRoutinClassType" name="newRoutinClassType">
+                                <option value="">Search</option>
+                                <option value="Theory">Theory</option>
+                                <option value="pratical">Pratical</option>
                             </select>
                 
                             <label for="newRoutinTeacher">Select Teacher:</label>
@@ -593,6 +615,10 @@
                             <span id="new-routin-report-subject"></span>
                         </div>
                         <div>
+                            <label for="new-routin-report-class-type">Class Type:</label>
+                            <span id="new-routin-report-class-type"></span>
+                        </div>
+                        <div>
                             <label for="new-routin-report-teacher">Teacher:</label>
                             <span id="new-routin-report-teacher"></span>
                         </div>
@@ -608,6 +634,7 @@
                             <label for="new-routin-report-roomNo">Room No:</label>
                             <span id="new-routin-report-roomNo"></span>
                         </div>
+                        <button type="button" class="routinBtn">Submit Another</button>
                         <button type="button" class="routinBtn">Home</button>
                     </div>
                     <form id="updateRoutinForm1" action="/submit" method="post" style="display: none;">
@@ -666,6 +693,13 @@
                             <select id="updateRoutinSubject" name="updateRoutinSubject">
                                 <option value="">Search</option>
                             </select>
+
+                            <label for="updateRoutinClassType">Select Class Type:</label>
+                            <select id="updateRoutinClassType" name="updateRoutinClassType">
+                                <option value="">Search</option>
+                                <option value="Theory">Theory</option>
+                                <option value="pratical">Pratical</option>
+                            </select>
                 
                             <label for="updateRoutinTeacher">Select Teacher:</label>
                             <select id="updateRoutinTeacher" name="updateRoutinTeacher">
@@ -717,6 +751,10 @@
                         <div>
                             <label for="update-routin-report-subject">Subject:</label>
                             <span id="update-routin-report-subject"></span>
+                        </div>
+                        <div>
+                            <label for="update-routin-report-class-type">Class Type:</label>
+                            <span id="update-routin-report-class-type"></span>
                         </div>
                         <div>
                             <label for="update-routin-report-teacher">Teacher:</label>
