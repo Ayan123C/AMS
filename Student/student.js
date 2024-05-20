@@ -56,6 +56,7 @@ function showTable() {
 function showOnlyAttendence() {
     document.querySelector('.sem-submit').style.display = 'flex';
     document.querySelector('.dashboard').style.display = 'none';
+    document.querySelector('#table-container').style.display = 'none';
 }
 
 function showDashboard() {
