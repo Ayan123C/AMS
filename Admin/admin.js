@@ -354,46 +354,83 @@ document.addEventListener('DOMContentLoaded', () => {
         const selectedBatch = formData.get('batch');
         const selectedSemester = formData.get('semester');
         const selectedSection = formData.get('section');
-
+    
         if (!selectedBatch || !selectedSemester || !selectedSection) {
             showWarningToast('Please enter batch, semester, and section.');
             return;
         }
-
+    
         try {
-            const response = await fetch('../json/class.json');
+            const response = await fetch('../json/class.json'); // Update the path
             const data = await response.json();
-
-            if (data[selectedBatch] && data[selectedBatch][selectedSemester] && data[selectedBatch][selectedSemester][selectedSection]) {
-                const classDetails = data[selectedBatch][selectedSemester][selectedSection];
-                tableBody.innerHTML = '';
-
-                classBatchSpan.textContent = selectedBatch;
-                classSemesterSpan.textContent = selectedSemester;
-                classSectionSpan.textContent = selectedSection;
-
-                classDetails.forEach(detail => {
-                    const row = document.createElement('tr');
-                    const courseNameCell = document.createElement('td');
-                    courseNameCell.textContent = detail.course_name;
-                    row.appendChild(courseNameCell);
-
-                    const totalClassesCell = document.createElement('td');
-                    totalClassesCell.textContent = detail.total_classes;
-                    row.appendChild(totalClassesCell);
-
-                    const teacherNameCell = document.createElement('td');
-                    teacherNameCell.textContent = detail.teacher_name;
-                    row.appendChild(teacherNameCell);
-
-                    tableBody.appendChild(row);
+    
+            const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+            const timeSlots = [
+                "08:00-09:30",
+                "09:45-11:15",
+                "11:30-01:00",
+                "02:00-03:30",
+                "Break",
+                "03:45-05:15",
+                "05:30-07:00",
+                "07:15-08:45",
+                "04:45-05:45"
+            ];
+    
+            const tableBody = document.getElementById('classTable-search-report-body');
+            tableBody.innerHTML = '';
+    
+            days.forEach(day => {
+                const newRow = document.createElement('tr');
+                const dayCell = document.createElement('td');
+                dayCell.textContent = day;
+                newRow.appendChild(dayCell);
+    
+                // Create cells for each period
+                timeSlots.forEach((timeSlot, i) => {
+                    const periodCell = document.createElement('td');
+                    periodCell.classList.add('period');
+    
+                    if (timeSlot === "Break") {
+                        periodCell.innerHTML = '<div><strong>Break</strong></div>';
+                    } else {
+                        // Calculate actual period index excluding break
+                        const periodIndex = i > 4 ? i - 1 : i;
+                        // Check if the day has a period defined for the current slot
+                        const period = data[selectedBatch][selectedSemester][selectedSection][day] && data[selectedBatch][selectedSemester][selectedSection][day][periodIndex];
+                        if (period) {
+                            periodCell.innerHTML = `
+                                <div><strong>${period.subject_code}</strong></div>
+                                <div>${period.teacher_name}</div>
+                                <div>${period.room_no}</div>
+                            `;
+                        } else {
+                            periodCell.innerHTML = '<div>Free Period</div>';
+                        }
+                    }
+    
+                    newRow.appendChild(periodCell);
                 });
-
-                classReportDiv.style.display = 'block';
-                classSearchForm.style.display = 'none';
-            } else {
-                showErrorToast('Class details not found for the selected batch, semester, or section.');
-            }
+    
+                tableBody.appendChild(newRow);
+            });
+    
+            // Show the updated table
+            const classTable = document.getElementById('classTable-search-report');
+            classTable.style.display = 'table'; // Changed from 'block' to 'table' for table display
+            classSearchForm.style.display = 'none';
+    
+            // Fill class details in class-search-report div
+            const classBatchSpan = document.getElementById('classBatch-search-report');
+            const classSemesterSpan = document.getElementById('classSemester-search-report');
+            const classSectionSpan = document.getElementById('classSection-search-report');
+            classBatchSpan.textContent = selectedBatch;
+            classSemesterSpan.textContent = selectedSemester;
+            classSectionSpan.textContent = selectedSection;
+    
+            // Show class-search-report div
+            const classSearchReportDiv = document.querySelector('.class-search-report');
+            classSearchReportDiv.style.display = 'block';
         } catch (error) {
             console.error('Error fetching class data:', error);
             showErrorToast('Error fetching class details. Please try again later.');
