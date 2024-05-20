@@ -45,3 +45,13 @@ function updateProgressbar() {
   progress.style.width =
     ((progressActive.length - 1) / (progressSteps.length - 1)) * 100 + "%";
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  
+  const cancelButton = document.querySelector('.btn-cancel');
+
+  cancelButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    window.location.href = '../../Admin/admin.html';
+  });
+});
