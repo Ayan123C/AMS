@@ -190,12 +190,15 @@ input {
 }
 
 .btns-group {
-  display: grid;
+  /* display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 1.5rem; */
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .btn {
+  width:18%;
   padding: 0.75rem;
   display: block;
   text-decoration: none;
