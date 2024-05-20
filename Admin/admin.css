@@ -1837,3 +1837,21 @@ header .current-date{
 .toast-content .toast-icon {
     margin-right: 10px;
 }
+
+
+
+
+
+a.studentBtn.widthBtn {
+    text-align: center;
+        margin-top: 15px;
+        padding: 8px 16px;
+        background-color: var(--color-primary);
+        color: var(--color-white);
+        border: none;
+        border-radius: var(--border-radius-3);
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-weight: bold;
+        background-color: #28A745;
+    }
