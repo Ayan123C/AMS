@@ -361,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     
         try {
-            const response = await fetch('../json/class.json'); // Update the path
+            const response = await fetch('../json/class.json');
             const data = await response.json();
     
             const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -386,7 +386,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 dayCell.textContent = day;
                 newRow.appendChild(dayCell);
     
-                // Create cells for each period
                 timeSlots.forEach((timeSlot, i) => {
                     const periodCell = document.createElement('td');
                     periodCell.classList.add('period');
@@ -394,9 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (timeSlot === "Break") {
                         periodCell.innerHTML = '<div><strong>Break</strong></div>';
                     } else {
-                        // Calculate actual period index excluding break
                         const periodIndex = i > 4 ? i - 1 : i;
-                        // Check if the day has a period defined for the current slot
                         const period = data[selectedBatch][selectedSemester][selectedSection][day] && data[selectedBatch][selectedSemester][selectedSection][day][periodIndex];
                         if (period) {
                             periodCell.innerHTML = `
@@ -415,12 +412,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 tableBody.appendChild(newRow);
             });
     
-            // Show the updated table
             const classTable = document.getElementById('classTable-search-report');
-            classTable.style.display = 'table'; // Changed from 'block' to 'table' for table display
+            classTable.style.display = 'table'; 
             classSearchForm.style.display = 'none';
     
-            // Fill class details in class-search-report div
             const classBatchSpan = document.getElementById('classBatch-search-report');
             const classSemesterSpan = document.getElementById('classSemester-search-report');
             const classSectionSpan = document.getElementById('classSection-search-report');
@@ -428,7 +423,6 @@ document.addEventListener('DOMContentLoaded', () => {
             classSemesterSpan.textContent = selectedSemester;
             classSectionSpan.textContent = selectedSection;
     
-            // Show class-search-report div
             const classSearchReportDiv = document.querySelector('.class-search-report');
             classSearchReportDiv.style.display = 'block';
         } catch (error) {
@@ -497,7 +491,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cancelButtons.forEach(button => {
         button.addEventListener('click', (event) => {
             event.preventDefault();
-            searchForm.style.display = 'block';
+            searchForm.style.display = 'inherit';
             classSearchForm.style.display = 'none';
             teacherSearchForm.style.display = 'none';
             roomNoSearchForm.style.display = 'none';
@@ -717,7 +711,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cancelButtons.forEach(button => {
         button.addEventListener('click', (event) => {
             event.preventDefault();
-            attendanceForm.style.display = 'block';
+            attendanceForm.style.display = 'inherit';
             studentAttendanceForm.style.display = 'none';
             classAttendanceForm.style.display = 'none';
             subjectsAttendanceForm.style.display = 'none';
@@ -918,7 +912,6 @@ document.addEventListener('DOMContentLoaded', () => {
         newReportDiv.style.display = 'none';
         newRoutinForm2.style.display = 'block';
 
-        // Reset other data in newRoutinForm2
         document.getElementById('newRoutinDay').selectedIndex = 0;
         document.getElementById('newRoutinSubject').selectedIndex = 0;
         document.getElementById('newRoutinClassType').selectedIndex = 0;
@@ -1080,7 +1073,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cancelButtons.forEach(button => {
         button.addEventListener('click', (event) => {
             event.preventDefault();
-            routinForm.style.display = 'block';
+            routinForm.style.display = 'inherit';
             newRoutinForm1.style.display = 'none';
             newRoutinForm2.style.display = 'none';
             updateRoutinForm1.style.display = 'none';
@@ -1299,7 +1292,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const removesubjectsForm2 = document.getElementById('removesubjectsForm2');
     const removesubjectsReport = document.querySelector('.removesubjects-report');
     const homeButtonRemove = document.querySelector('.removesubjects-report .subjectBtn');
-    const cancelButtonRemove = document.querySelector('#removesubjectsForm2 button[type="reset"]');
+    const cancelButtons = document.querySelectorAll('.subjectBtn[type="reset"]');
 
     let selectedBatchShow = '';
     let selectedSemesterShow = '';
@@ -1493,21 +1486,21 @@ document.addEventListener('DOMContentLoaded', () => {
         location.reload();
     });
 
-    cancelButton.addEventListener('click', (event) => {
-        event.preventDefault();
-        managesubjectsForm.style.display = 'block';
-        addsubjectsForm1.style.display = 'none';
-        addsubjectsForm2.style.display = 'none';
-        addsubjectsForm1.reset();
-        addsubjectsForm2.reset();
-    });
+    cancelButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+            managesubjectsForm.style.display = 'inherit';
+            showsubjectsForm.style.display = 'none';
+            addsubjectsForm1.style.display = 'none';
+            addsubjectsForm2.style.display = 'none';
+            removesubjectsForm1.style.display = 'none';
+            removesubjectsForm2.style.display = 'none';
 
-    cancelButtonRemove.addEventListener('click', (event) => {
-        event.preventDefault();
-        managesubjectsForm.style.display = 'block';
-        removesubjectsForm1.style.display = 'none';
-        removesubjectsForm2.style.display = 'none';
-        removesubjectsForm1.reset();
-        removesubjectsForm2.reset();
+            showsubjectsForm.reset();
+            addsubjectsForm1.reset();
+            addsubjectsForm2.reset();
+            removesubjectsForm1.reset();
+            removesubjectsForm2.reset();
+        });
     });
 });
