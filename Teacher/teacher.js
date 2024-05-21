@@ -55,8 +55,8 @@ const renderCalendar = () => {
   for (let i = 1; i <= lastDateOfMonth; i++) {
     let isToday =
       i === date.getDate() &&
-      currMonth === new Date().getMonth() &&
-      currYear === new Date().getFullYear()
+        currMonth === new Date().getMonth() &&
+        currYear === new Date().getFullYear()
         ? "active"
         : "";
     liTag += `<li class="${isToday}">${i}</li>`;
@@ -164,9 +164,9 @@ fetch("../json/updates.json")
                 <div class="message">
                     <p><b>${update.title}</b> ${update.description}</p>
                     <small class="text-muted">${formatTimeAgo(
-                      daysDiff,
-                      hoursDiff
-                    )}</small>
+        daysDiff,
+        hoursDiff
+      )}</small>
                 </div>
             `;
 
@@ -719,6 +719,173 @@ document.addEventListener("DOMContentLoaded", () => {
     substituteReportDiv.style.display = "none";
   });
 });
+
+// Get the forms and the content div
+var form1 = document.getElementById('medicalAttendenceForm1');
+var form2 = document.getElementById('medicalAttendenceForm2');
+var contentDiv = document.getElementById('medical-attendence-content');
+var reportDiv = contentDiv.querySelector('.medical-attendence-report');
+var tableBody = document.getElementById('medical-attendance-tableBody');
+
+// Function to redirect to form2 and hide form1
+function redirectToForm2() {
+    form1.style.display = 'none';
+    form2.style.display = 'block';
+}
+
+// Function to fetch subjects from JSON file based on the collegeId
+function fetchSubjects() {
+    var collegeId = document.getElementById('medical-attendance').value;
+    // Assuming the JSON file is named 'medicalAttendenceSubjects.json' and is in the same directory
+    fetch('../json/medicalAttendenceSubjects.json')
+        .then(response => response.json())
+        .then(data => {
+            var subjectOptions = '<option value="">Search</option>';
+            if (data[collegeId] && data[collegeId].subjects) {
+                data[collegeId].subjects.forEach(subject => {
+                    subjectOptions += '<option value="' + subject + '">' + subject + '</option>';
+                });
+                document.getElementById('medical-attendence-subject').innerHTML = subjectOptions;
+                redirectToForm2();
+            } else {
+                alert('Subjects not found for the given College ID');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching the subjects:', error);
+        });
+}
+
+// Function to fetch attendance data based on the selected subject
+function fetchAttendanceData(subjectId) {
+    // Assuming the attendance data is fetched from a server-side API
+    // Here we simulate the fetch with static data for demonstration
+    // Replace this with actual API call
+    return new Promise((resolve) => {
+        var attendanceData = [
+            { date: '2024-01-01', status: 'Present', classType: 'Lecture' },
+            { date: '2024-01-02', status: 'Absent', classType: 'Lab' },
+            { date: '2024-01-03', status: 'Present', classType: 'Lecture' },
+            { date: '2024-01-04', status: 'Present', classType: 'Lecture' },
+            { date: '2024-01-05', status: 'Absent', classType: 'Lab' },
+            { date: '2024-01-06', status: 'Present', classType: 'Lecture' },
+            { date: '2024-01-07', status: 'Present', classType: 'Lecture' },
+            { date: '2024-01-08', status: 'Absent', classType: 'Lab' },
+            { date: '2024-01-09', status: 'Present', classType: 'Lecture' },
+            { date: '2024-01-10', status: 'Present', classType: 'Lecture' }
+        ];
+        resolve(attendanceData);
+    });
+}
+
+// Function to generate the report
+function generateReport() {
+    var subjectId = document.getElementById('medical-attendence-subject').value;
+    if (!subjectId) {
+        alert('Please select a subject');
+        return;
+    }
+
+    // Assuming the report details are fetched from a server-side API or database
+    // For simplicity, let's just simulate the report data
+    var reportData = {
+        batch: 'Batch 1',
+        semester: 'Semester 1',
+        section: 'Section A',
+        subject: subjectId,  // use the selected subject
+        teacher: 'Mr. Smith'
+    };
+
+    // Update the report details in the content div
+    document.getElementById('medical-attendence-reportBatch').innerHTML = reportData.batch;
+    document.getElementById('medical-attendence-reportSemester').innerHTML = reportData.semester;
+    document.getElementById('medical-attendence-reportSection').innerHTML = reportData.section;
+    document.getElementById('medical-attendence-reportSubject').innerHTML = reportData.subject;
+    document.getElementById('medical-attendence-reportTeacher').innerHTML = reportData.teacher;
+
+    // Fetch and populate the table with dynamic data
+    fetchAttendanceData(subjectId).then(populateTable);
+
+    // Show the report div
+    reportDiv.style.display = 'block';
+    // Hide form2
+    form2.style.display = 'none';
+}
+
+// Function to populate the table with dynamic data
+function populateTable(attendanceData) {
+    // Clear existing table data
+    tableBody.innerHTML = '';
+
+    // Populate table with dynamic data
+    attendanceData.forEach(function(rowData) {
+        var row = document.createElement('tr');
+        var dateCell = document.createElement('td');
+        var statusCell = document.createElement('td');
+        var classTypeCell = document.createElement('td');
+
+        dateCell.textContent = rowData.date;
+        statusCell.innerHTML = '<input type="checkbox" ' + (rowData.status === 'Present' ? 'checked' : '') + '>';
+        classTypeCell.textContent = rowData.classType;
+
+        row.appendChild(dateCell);
+        row.appendChild(statusCell);
+        row.appendChild(classTypeCell);
+        tableBody.appendChild(row);
+    });
+}
+
+// Function to redirect back to form1 when cancel button is clicked
+function cancelForm2() {
+    form2.style.display = 'none';
+    form1.style.display = 'block';
+}
+
+// Function to redirect back to form1 when home button is clicked
+function redirectToForm1() {
+    reportDiv.style.display = 'none';
+    form1.style.display = 'block';
+}
+
+// Function to check if form details are filled before submitting
+function validateForm1() {
+    var collegeId = document.getElementById('medical-attendance').value;
+    if (collegeId === '') {
+        alert('Please enter the college Id');
+        return false;
+    }
+    return true;
+}
+
+// Function to check if subject is selected before submitting
+function validateForm2() {
+    var subject = document.getElementById('medical-attendence-subject').value;
+    if (subject === '') {
+        alert('Please select a subject');
+        return false;
+    }
+    return true;
+}
+
+// Add event listeners to the forms
+form1.addEventListener('submit', function(event) {
+    event.preventDefault();
+    if (validateForm1()) {
+        fetchSubjects();
+    }
+});
+
+form2.addEventListener('submit', function(event) {
+    event.preventDefault();
+    if (validateForm2()) {
+        generateReport();
+    }
+});
+
+form2.querySelector('.medicalAttendenceBtn[type="reset"]').addEventListener('click', cancelForm2);
+
+// Add event listener to the home button in the report div
+reportDiv.querySelector('.medicalAttendenceBtn[type="button"]').addEventListener('click', redirectToForm1);
 
 // Function to set the maximum date for the date input field based on the current IST date and time
 function setMaxDate() {

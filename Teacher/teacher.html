@@ -40,6 +40,10 @@
           <span class="material-symbols-outlined"> person_alert </span>
           <h3>Substitute Faculty</h3>
         </a>
+        <a href="#" id="medical-attendence-menu">
+          <span class="material-symbols-outlined"> badge </span>
+          <h3>Medical Attendence</h3>
+        </a>
         <a href="../Logout/logout.html" id="logout-link">
           <span class="material-symbols-outlined"> logout </span>
           <h3>Log out</h3>
@@ -190,6 +194,13 @@
                 <option value="">Search</option>
               </select>
 
+              <label for="class-type">Class Type:</label>
+              <select id="class-type" name="class-type">
+                <option value="select">Select</option>
+                <option value="regular">Regular</option>
+                <option value="flip">Flip</option>
+              </select>
+
               <label for="date">Select Date:</label>
               <input type="date" id="date" name="date" required />
 
@@ -290,7 +301,9 @@
               </div>
               <button type="button" class="attendanceBtn">Home</button>
               <button type="submit" class="attendanceBtn">Submit</button>
-              <button type="reset" class="attendanceBtn" style="background-color: #dc3545">Cancel</button>
+              <button type="reset" class="attendanceBtn" style="background-color: #dc3545">
+                Cancel
+              </button>
             </form>
           </div>
         </div>
@@ -381,7 +394,78 @@
           </div>
         </div>
       </div>
+      <div id="medical-attendence-content" class="content">
+        <h1>Medical Attendence</h1>
+        <div class="medical-attendence">
+          <form id="medicalAttendenceForm1" action="/submit" method="post">
+            <div class="medicalAttendenceView1">
+              <label for="Medical-Attendence-Id">College Id:</label>
+              <input type="text" name="collegeId" placeholder="Enter The College Id" id="medical-attendance">
+              <br />
+              <small class="text-muted">*Check before submit</small>
+            </div>
+            <button type="submit" class="medicalAttendenceBtn">Submit</button>
+          </form>
+          <form id="medicalAttendenceForm2" action="/submit" method="post" style="display: none">
+            <div class="medicalAttendenceView2">
+
+              <label for="medical-attendence-subject">Select Subject:</label>
+              <select id="medical-attendence-subject" name="subject">
+                <option value="">Search</option>
+              </select>
+
+              <br />
+              <small class="text-muted">*Check before submit</small>
+            </div>
+            <button type="submit" class="medicalAttendenceBtn">Submit</button>
+            <button type="reset" class="medicalAttendenceBtn" style="background-color: #dc3545">
+              Cancel
+            </button>
+          </form>
+          <div class="medical-attendence-report" style="display: none">
+            <p>Medical Attendance Details</p>
+            <div>
+              <label for="medical-attendence-reportTeacher">Name:</label>
+              <span id="medical-attendence-reportTeacher"></span>
+            </div>
+            <div>
+              <label for="medical-attendence-reportBatch">Batch:</label>
+              <span id="medical-attendence-reportBatch"></span>
+            </div>
+            <div>
+              <label for="medical-attendence-reportSemester">Semester:</label>
+              <span id="medical-attendence-reportSemester"></span>
+            </div>
+            <div>
+              <label for="medical-attendence-reportSection">Section:</label>
+              <span id="medical-attendence-reportSection"></span>
+            </div>
+            <div>
+              <label for="medical-attendence-reportSubject">Subject:</label>
+              <span id="medical-attendence-reportSubject"></span>
+            </div>
+            <table id="medicalAttendenceTable">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Attendence Status</th>
+                  <th>Class Type</th>
+                </tr>
+              </thead>
+              <tbody id="medical-attendance-tableBody">
+                <tr>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+            <button type="button" class="medicalAttendenceBtn">Home</button>
+          </div>
+        </div>
+      </div>
     </main>
+  </div>
+  </main>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.1/toastify.min.js"></script>
   <script src="teacher.js"></script>
