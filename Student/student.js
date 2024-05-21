@@ -237,3 +237,59 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Error fetching student details:', error));
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+document.getElementById('sem-form-submit').addEventListener('click', function() {
+    const selectedSemester = document.querySelector('select[name="choose sem"]').value;
+
+    if (selectedSemester) {
+        
+        fetch('../json/attendenceData2.json')
+            .then(response => response.json())
+            .then(data => {
+                const semesterData = data[selectedSemester];
+                const tableBody = document.querySelector('#Attendence-table tbody');
+                tableBody.innerHTML = ''; // Clear existing rows
+
+                semesterData.forEach(item => {
+                    const row = document.createElement('tr');
+
+                    const cell1 = document.createElement('td');
+                    cell1.textContent = item.subjectID;
+                    row.appendChild(cell1);
+
+                    const cell2 = document.createElement('td');
+                    cell2.textContent = item.subjectName;
+                    row.appendChild(cell2);
+
+                    const cell3 = document.createElement('td');
+                    cell3.textContent = item.totalClass;
+                    row.appendChild(cell3);
+
+                    const cell4 = document.createElement('td');
+                    cell4.textContent = item.classPresent;
+                    row.appendChild(cell4);
+
+                    const cell5 = document.createElement('td');
+                    cell5.textContent = item.attendancePercentage + '%';
+                    row.appendChild(cell5);
+
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching the JSON data:', error));
+    } else {
+        console.warn('Please select a semester.');
+    }
+});
