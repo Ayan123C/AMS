@@ -86,3 +86,16 @@ const showErrorToast = (message) => {
 
     toast.showToast();
 };
+
+function togglePasswordVisibility(inputName) {
+    const inputField = document.querySelector(`input[name=${inputName}]`);
+    const eyeIcon = inputField.nextElementSibling.querySelector('i');
+
+    if (inputField.type === 'password') {
+        inputField.type = 'text';
+        eyeIcon.textContent = 'visibility_off';
+    } else {
+        inputField.type = 'password';
+        eyeIcon.textContent = 'visibility';
+    }
+}
