@@ -51,9 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(error => {
             loadingOverlay.style.display = 'none';
-
-            console.error('Error:', error);
-            showErrorToast(error.message);
+            showErrorToast('Failed to send email');
         });
     });
 });
@@ -107,9 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(error => {
             loadingOverlay.style.display = 'none';
-
-            console.error('Error:', error);
-            showErrorToast(error.message);
+            showErrorToast('Failed to reset password');
         });
     });
 });
