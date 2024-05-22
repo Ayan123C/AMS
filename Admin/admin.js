@@ -602,11 +602,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 studentAttendanceReport.style.display = 'block';
                 studentAttendanceForm.style.display = 'none';
             } else {
-                alert('Student with the provided roll number not found.');
+                showErrorToast('Student with the provided roll number not found.');
             }
         } catch (error) {
-            console.error('Error fetching student details:', error);
-            alert('Error fetching student details. Please try again later.');
+            showErrorToast('Error fetching student details. Please try again later.');
         }
     });
 
@@ -1244,8 +1243,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const deleteStudentRollNoSpan = document.getElementById('delete-student-report-id');
 
     const homeBtn = document.querySelector('.delete-student-report .studentBtn');
-    const deleteStudentCancelButtons = document.querySelector('.deleteStudentForm .attendanceBtn[type="reset"]');
-    const ReportCancelButtons = document.querySelectorAll('.attendanceBtn[type="reset"]');
+    // const deleteStudentCancelButtons = document.querySelector('.deleteStudentForm .studentBtn[type="reset"]');
+    const CancelButtons = document.querySelectorAll('.studentBtn[type="reset"]');
 
     const showForm1 = (formToShow, formToHide) => {
         formToShow.style.display = 'block';
@@ -1288,7 +1287,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const rollNo = event.target.elements.rollNo.value;
 
         if (rollNo === "") {
-            alert('Please enter a roll number.');
+            showWarningToast('Please enter a roll number.');
             return;
         }
 
@@ -1325,10 +1324,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 });
             } else {
-                alert('Student with this roll number not found.');
+                showErrorToast('Student with this roll number not found.');
             }
         } catch (error) {
-            console.error('Error fetching or parsing data:', error);
+            showErrorToast('Error fetching or parsing data:');
         }
     });
 
@@ -1347,7 +1346,27 @@ document.addEventListener('DOMContentLoaded', () => {
         location.reload();
     });
 
-    ReportCancelButtons.forEach(button => {
+    CancelButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+            studentForm.style.display = 'inherit';
+            detailsStudentForm.style.display = 'none';
+            detailsStudentFormRollNo.style.display = 'none';
+            detailsStudentFormSection.style.display = 'none';
+            deleteStudentForm.style.display = 'none';
+            deleteStudentConfirmForm.style.display = 'none';
+            deleteStudentReport.style.display = 'none';
+
+            detailsStudentForm.reset();
+            classAttendanceForm.reset();
+            detailsStudentFormRollNo.reset();
+            detailsStudentFormSection
+            deleteStudentForm.reset();
+            deleteStudentConfirmForm.reset();
+        });
+    });
+
+    cancelButtons.forEach(button => {
         button.addEventListener('click', (event) => {
             event.preventDefault();
             studentForm.style.display = 'inherit';
@@ -1360,20 +1379,6 @@ document.addEventListener('DOMContentLoaded', () => {
             deleteStudentConfirmForm.reset();
         });
     });
-
-    // deleteStudentCancelButtons.forEach(button => {
-    //     button.addEventListener('click', (event) => {
-    //         event.preventDefault();
-    //         studentForm.style.display = 'inherit';
-
-    //         detailsStudentForm.reset();
-    //         classAttendanceForm.reset();
-    //         detailsStudentFormRollNo.reset();
-    //         detailsStudentFormSection
-    //         deleteStudentForm.reset();
-    //         deleteStudentConfirmForm.reset();
-    //     });
-    // });
 });
 
 document.addEventListener('DOMContentLoaded', () => {
