@@ -1610,6 +1610,59 @@ a.studentBtn.widthBtn {
     background-color: #28A745;        
 }
 
+#deleteStudentConfirmForm {
+    width: 430px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: none;
+    opacity: 1;
+    text-align: center; 
+}
+
+#deleteStudentConfirmForm .delete-student-confirm-from p {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: black;
+}
+
+#deleteStudentConfirmForm .delete-student-confirm-from span {
+    font-size: 16px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+#deleteStudentConfirmForm button {
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+#deleteBtn {
+    background-color: #dc3545;
+}
+
+#cancelBtn {
+    background-color: #9b9a9a;
+    margin-left: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    #deleteStudentConfirmForm {
+        width: 80%;
+    }
+}
+
 .delete-student-report {
     display: block;
     margin-top: 20px;
@@ -1879,57 +1932,3 @@ a.studentBtn.widthBtn {
 .toast-content .toast-icon {
     margin-right: 10px;
 }
-
-#deleteStudentConfirmForm {
-    width: 430px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    display: none;
-    opacity: 1;
-    text-align: center; 
-}
-
-#deleteStudentConfirmForm .delete-student-confirm-from p {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: black;
-}
-
-#deleteStudentConfirmForm .delete-student-confirm-from span {
-    font-size: 16px;
-    margin-bottom: 20px;
-    display: block;
-}
-
-#deleteStudentConfirmForm button {
-    padding: 8px 16px;
-    border: none;
-    cursor: pointer;
-    color: white;
-    font-size: 14px;
-    border-radius: 4px;
-}
-
-#deleteBtn {
-    background-color: #dc3545;
-}
-
-#cancelBtn {
-    background-color: #9b9a9a;
-    margin-left: 10px;
-}
-
-@media screen and (max-width: 768px) {
-    #deleteStudentConfirmForm {
-        width: 80%;
-    }
-}
-

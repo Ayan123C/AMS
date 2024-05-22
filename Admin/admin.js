@@ -1232,18 +1232,16 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const studentForm = document.getElementById('studentForm');
     const detailsStudentForm = document.getElementById('detailsStudentForm');
-    const deleteStudentForm = document.getElementById('deleteStudentForm');
-
     const detailsStudentFormRollNo = document.getElementById('detailsStudentFormRollNo');
     const detailsStudentFormSection = document.getElementById('detailsStudentFormSection');
 
+    const deleteStudentForm = document.getElementById('deleteStudentForm');
     const deleteStudentConfirmForm = document.getElementById('deleteStudentConfirmForm');
     const deleteStudentReport = document.querySelector('.delete-student-report');
     const deleteStudentNameSpan = document.getElementById('delete-student-name');
     const deleteStudentRollNoSpan = document.getElementById('delete-student-report-id');
 
     const homeBtn = document.querySelector('.delete-student-report .studentBtn');
-    // const deleteStudentCancelButtons = document.querySelector('.deleteStudentForm .studentBtn[type="reset"]');
     const CancelButtons = document.querySelectorAll('.studentBtn[type="reset"]');
 
     const showForm1 = (formToShow, formToHide) => {
@@ -1366,7 +1364,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    cancelButtons.forEach(button => {
+    CancelButtons.forEach(button => {
         button.addEventListener('click', (event) => {
             event.preventDefault();
             studentForm.style.display = 'inherit';
