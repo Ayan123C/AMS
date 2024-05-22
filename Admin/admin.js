@@ -1233,9 +1233,19 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const studentForm = document.getElementById('studentForm');
     const detailsStudentForm = document.getElementById('detailsStudentForm');
+    const deleteStudentForm = document.getElementById('deleteStudentForm');
 
     const detailsStudentFormRollNo = document.getElementById('detailsStudentFormRollNo');
     const detailsStudentFormSection = document.getElementById('detailsStudentFormSection');
+
+    const deleteStudentConfirmForm = document.getElementById('deleteStudentConfirmForm');
+    const deleteStudentReport = document.querySelector('.delete-student-report');
+    const deleteStudentNameSpan = document.getElementById('delete-student-name');
+    const deleteStudentRollNoSpan = document.getElementById('delete-student-report-id');
+
+    const homeBtn = document.querySelector('.delete-student-report .studentBtn');
+    const deleteStudentCancelButtons = document.querySelector('.deleteStudentForm .attendanceBtn[type="reset"]');
+    const ReportCancelButtons = document.querySelectorAll('.attendanceBtn[type="reset"]');
 
     const showForm1 = (formToShow, formToHide) => {
         formToShow.style.display = 'block';
@@ -1253,7 +1263,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (action === 'updateStudent') {
 
         } else if (action === 'deleteStudent') {
-
+            showForm1(deleteStudentForm, studentForm);
         }
     });
 
@@ -1272,7 +1282,98 @@ document.addEventListener('DOMContentLoaded', () => {
             showForm2(detailsStudentFormSection, detailsStudentForm);
         }
     });
-    
+
+    deleteStudentForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const rollNo = event.target.elements.rollNo.value;
+
+        if (rollNo === "") {
+            alert('Please enter a roll number.');
+            return;
+        }
+
+        try {
+            const response = await fetch('../json/account.json');
+            const data = await response.json();
+
+            const studentToDelete = data.students.find(student => student.student.id === rollNo);
+
+            if (studentToDelete) {
+                deleteStudentConfirmForm.style.display = 'block';
+                document.body.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                document.body.style.opacity = '1';
+
+                const allImages = document.querySelectorAll('img');
+                allImages.forEach(image => {
+                    image.style.opacity = '0.5';
+                });
+
+                deleteStudentConfirmForm.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    deleteStudentNameSpan.textContent = studentToDelete.student.name;
+                    deleteStudentRollNoSpan.textContent = studentToDelete.student.id;
+
+                    deleteStudentForm.style.display = 'none';
+                    deleteStudentReport.style.display = 'block';
+
+                    deleteStudentConfirmForm.style.display = 'none';
+                    document.body.style.backgroundColor = '#f6f6f9';
+                    document.body.style.opacity = '1';
+
+                    allImages.forEach(image => {
+                        image.style.opacity = '1';
+                    });
+                });
+            } else {
+                alert('Student with this roll number not found.');
+            }
+        } catch (error) {
+            console.error('Error fetching or parsing data:', error);
+        }
+    });
+
+    document.getElementById('cancelBtn').addEventListener('click', () => {
+        deleteStudentConfirmForm.style.display = 'none';
+        document.body.style.backgroundColor = '#f6f6f9';
+        document.body.style.opacity = '1';
+
+        const allImages = document.querySelectorAll('img');
+        allImages.forEach(image => {
+            image.style.opacity = '1';
+        });
+    });
+
+    homeBtn.addEventListener('click', () => {
+        location.reload();
+    });
+
+    ReportCancelButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+            studentForm.style.display = 'inherit';
+
+            detailsStudentForm.reset();
+            classAttendanceForm.reset();
+            detailsStudentFormRollNo.reset();
+            detailsStudentFormSection
+            deleteStudentForm.reset();
+            deleteStudentConfirmForm.reset();
+        });
+    });
+
+    // deleteStudentCancelButtons.forEach(button => {
+    //     button.addEventListener('click', (event) => {
+    //         event.preventDefault();
+    //         studentForm.style.display = 'inherit';
+
+    //         detailsStudentForm.reset();
+    //         classAttendanceForm.reset();
+    //         detailsStudentFormRollNo.reset();
+    //         detailsStudentFormSection
+    //         deleteStudentForm.reset();
+    //         deleteStudentConfirmForm.reset();
+    //     });
+    // });
 });
 
 document.addEventListener('DOMContentLoaded', () => {

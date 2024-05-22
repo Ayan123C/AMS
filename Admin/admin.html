@@ -909,6 +909,37 @@
                         <button type="submit" class="studentBtn">Submit</button>
                         <button type="reset" class="studentBtn" style="background-color: #dc3545;">Cancel</button>
                     </form>
+                    <form id="deleteStudentForm" action="/submit" method="post" style="display: none;">
+                        <div class="delete-student-from">
+                            <label for="rollNo">Enter JISID:</label>
+                            <input type="text" id="rollNo" name="rollNo" placeholder="Search" required>
+                            <span id="warningMessage" style="color: red; display: none;">Please enter numeric characters only.</span>
+                            <br>
+                            <small class="text-muted">*Check before submit</small>
+                        </div>
+                        <button type="submit" class="studentBtn">Submit</button>
+                        <button type="reset" class="studentBtn" style="background-color: #dc3545;">Cancel</button>
+                    </form>
+                    <form id="deleteStudentConfirmForm" action="/submit" method="post" style="display: none;">
+                        <div class="delete-student-confirm-from">
+                            <p>Confirm Delete?</p>
+                            <span>This action cannot be <Strong>undone</Strong>. This will permanently delete the student record.</span>
+                        </div>
+                        <button type="submit" id="deleteBtn" style="background-color: #dc3545;">Delete</button>
+                        <button type="button" id="cancelBtn" style="background-color: #9b9a9a;">Cancel</button>
+                    </form>      
+                    <div class="delete-student-report" style="display: none;">
+                        <p>Student Details</p>
+                        <div>
+                            <label for="delete-student-report-name">Name:</label>
+                            <span id="delete-student-name"></span>
+                        </div>
+                        <div>
+                            <label for="delete-student-report-id">Roll Number:</label>
+                            <span id="delete-student-report-id"></span>
+                        </div>
+                        <button type="button" class="studentBtn">Home</button>
+                    </div>
                 </div>
             </div>
             <div id="manage-subjects-content" class="content">
