@@ -146,7 +146,48 @@
               Cancel
             </button>
           </form>
+
           <form id="giveAttendendanceForm1" action="/submit" method="post" style="display: none">
+            <div class="give-attendance-from">
+              <label for="date">Select Date:</label>
+              <input type="date" id="date" name="date" required />
+              <br />
+              <small class="text-muted">*Check before submit</small>
+            </div>
+            <button type="submit" class="attendanceBtn">Submit</button>
+            <button type="reset" class="attendanceBtn" style="background-color: #dc3545">
+              Cancel
+            </button>
+          </form>
+          <form id="giveAttendendanceForm2" action="/submit" method="post" style="display: none">
+            <div class="subjects-attendance-from">
+              <label for="subject">Select Subject:</label>
+              <select id="subject" name="subject">
+                <option value="">Search</option>
+                <option value="CS601 Computer Networks">CS601 Computer Networks</option>
+                <option value="CS602 Microprocessors and Microcontrollers">CS602 Microprocessors and Microcontrollers
+                </option>
+                <option value="CS603 Software Engineering">CS603 Software Engineering</option>
+                <option value="CS604 A. Compiler Design">CS604 A. Compiler Design</option>
+                <option value="CS604 B. Computer Vision">CS604 B. Computer Vision</option>
+                <option value="CS604 C. Simulation and modeling">CS604 C. Simulation and modeling</option>
+                <option value="CS605 B. Distributed Operating System">CS605 B. Distributed Operating System</option>
+                <option value="CS605 C. Distributed Database">CS605 C. Distributed Database</option>
+                <option value="CS606 A. Data Warehousing and Data Mining">CS606 A. Data Warehousing and Data Mining
+                </option>
+                <option value="CS606 B. Digital Image Processing">CS606 B. Digital Image Processing</option>
+                <option value="CS606 C. E-commerce and ERP">CS606 C. E-commerce and ERP</option>
+              </select>
+              <br />
+              <small class="text-muted">*Check before submit</small>
+            </div>
+            <button type="submit" class="attendanceBtn">Submit</button>
+            <button type="reset" class="attendanceBtn" style="background-color: #dc3545">
+              Cancel
+            </button>
+          </form>
+
+          <!-- <form id="giveAttendendanceForm1" action="/submit" method="post" style="display: none">
             <div class="give-attendance-from">
               <label for="batch">Select Batch:</label>
               <select id="batch" name="batch">
@@ -211,7 +252,8 @@
             <button type="reset" class="attendanceBtn" style="background-color: #dc3545">
               Cancel
             </button>
-          </form>
+          </form> -->
+
           <div class="student-attendance-report" style="display: none">
             <p>Student Attendance</p>
             <div>
@@ -311,84 +353,52 @@
       <div id="substitute-faculty-content" class="content">
         <h1>Substitute Faculty</h1>
         <div class="subsitute">
-          <form id="substituteForm1" action="/submit" method="post">
+          <form id="substituteForm" action="/submit" method="post">
             <div class="substitute-view1">
-              <label for="substitute-batch">Select Batch:</label>
-              <select id="substitute-batch" name="batch">
-                <option value="">Search</option>
-                <option value="2020-2024">2020 - 2024</option>
-                <option value="2021-2025">2021 - 2025</option>
-                <option value="2022-2026">2022 - 2026</option>
-                <option value="2023-2027">2023 - 2027</option>
-                <option value="2024-2028">2024 - 2028</option>
-              </select>
-
-              <label for="substitute-semester">Select Semester:</label>
-              <select id="substitute-semester" name="semester">
-                <option value="">Search</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-              </select>
-              <br />
-              <small class="text-muted">*Check before submit</small>
-            </div>
-            <button type="submit" class="substituteBtn">Submit</button>
-          </form>
-          <form id="substituteForm2" action="/submit" method="post" style="display: none">
-            <div class="substitute-view2">
-              <label for="substitute-section">Select Section:</label>
-              <select id="substitute-section" name="section">
-                <option value="">Search</option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-              </select>
-
               <label for="substitute-subject">Select Subject:</label>
-              <select id="substitute-subject" name="subject">
+              <select id="substitute-subject" name="substituteSubject">
                 <option value="">Search</option>
+                <option value="CS601 Computer Networks">CS601 Computer Networks</option>
+                <option value="CS602 Microprocessors and Microcontrollers">CS602 Microprocessors and Microcontrollers
+                </option>
+                <option value="CS603 Software Engineering">CS603 Software Engineering</option>
+                <option value="CS604 A. Compiler Design">CS604 A. Compiler Design</option>
+                <option value="CS604 B. Computer Vision">CS604 B. Computer Vision</option>
+                <option value="CS604 C. Simulation and modeling">CS604 C. Simulation and modeling</option>
+                <option value="CS605 B. Distributed Operating System">CS605 B. Distributed Operating System</option>
+                <option value="CS605 C. Distributed Database">CS605 C. Distributed Database</option>
+                <option value="CS606 A. Data Warehousing and Data Mining">CS606 A. Data Warehousing and Data Mining
+                </option>
+                <option value="CS606 B. Digital Image Processing">CS606 B. Digital Image Processing</option>
+                <option value="CS606 C. E-commerce and ERP">CS606 C. E-commerce and ERP</option>
               </select>
 
               <label for="substitute-teacher">Select Teacher:</label>
-              <select id="substitute-teacher" name="teacher">
+              <select id="substitute-teacher" name="substituteTeacher">
                 <option value="">Search</option>
+                <option value="Dr.BikramJit Sarkar">Dr.BikramJit Sarkar</option>
+                <option value="Dr.Tra Nath">Dr.Ira Nath</option>
+                <option value="Mr. Apurba Paul">Dr. Apurba Paul</option>
+                <option value="Mr. Saikat Samanto">Mr. Saikat Samanto</option>
               </select>
               <br />
               <small class="text-muted">*Check before submit</small>
             </div>
             <button type="submit" class="substituteBtn">Submit</button>
-            <button type="reset" class="substituteBtn" style="background-color: #dc3545">
-              Cancel
-            </button>
           </form>
           <div class="substitute-report" style="display: none">
             <p>Substitute Details</p>
             <div>
-              <label for="substitute-reportBatch">Batch:</label>
-              <span id="substitute-reportBatch"></span>
+              <label for="substitute-reportSubjectName">Subject Name:</label>
+              <span id="substitute-reportSubjectName"></span>
             </div>
             <div>
-              <label for="substitute-reportSemester">Semester:</label>
-              <span id="substitute-reportSemester"></span>
+              <label for="substitute-reportSubjectCode">Subject Code:</label>
+              <span id="substitute-reportSubjectCode"></span>
             </div>
             <div>
-              <label for="substitute-reportSection">Section:</label>
-              <span id="substitute-reportSection"></span>
-            </div>
-            <div>
-              <label for="substitute-reportSubject">Subject:</label>
-              <span id="substitute-reportSubject"></span>
-            </div>
-            <div>
-              <label for="substitute-reportTeacher">Teacher:</label>
-              <span id="substitute-reportTeacher"></span>
+              <label for="substitute-reportTeacherName">Teacher Name:</label>
+              <span id="substitute-reportTeacherName"></span>
             </div>
             <button type="button" class="substituteBtn">Home</button>
           </div>
@@ -460,6 +470,7 @@
               </tbody>
             </table>
             <button type="button" class="medicalAttendenceBtn">Home</button>
+            <button type="submit" class="medicalAttendenceBtn">Submit</button>
           </div>
         </div>
       </div>
