@@ -439,7 +439,7 @@ main {
   font-weight: bold;
 }
 
-#back {
+#backButton {
   margin-right: 34px;
   padding: 3px;
   border-radius: var(--border-radius-3);
