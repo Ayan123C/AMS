@@ -1516,7 +1516,7 @@ header .current-date{
     margin-bottom: 0.4rem;
 }
 
-.student button.studentBtn ,#student_search{
+.student button.studentBtn ,.student_search{
     margin-top: 10px;
     padding: 8px 16px;
     background-color: var(--color-primary);
