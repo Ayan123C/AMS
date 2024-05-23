@@ -356,34 +356,24 @@
               <label for="substitute-subject">Select Subject:</label>
               <select id="substitute-subject" name="substituteSubject">
                 <option value="">Search</option>
-                <option value="CS601 Computer Networks">CS601 Computer Networks</option>
-                <option value="CS602 Microprocessors and Microcontrollers">CS602 Microprocessors and Microcontrollers
-                </option>
-                <option value="CS603 Software Engineering">CS603 Software Engineering</option>
-                <option value="CS604 A. Compiler Design">CS604 A. Compiler Design</option>
-                <option value="CS604 B. Computer Vision">CS604 B. Computer Vision</option>
-                <option value="CS604 C. Simulation and modeling">CS604 C. Simulation and modeling</option>
-                <option value="CS605 B. Distributed Operating System">CS605 B. Distributed Operating System</option>
-                <option value="CS605 C. Distributed Database">CS605 C. Distributed Database</option>
-                <option value="CS606 A. Data Warehousing and Data Mining">CS606 A. Data Warehousing and Data Mining
-                </option>
-                <option value="CS606 B. Digital Image Processing">CS606 B. Digital Image Processing</option>
-                <option value="CS606 C. E-commerce and ERP">CS606 C. E-commerce and ERP</option>
               </select>
-
+              <small class="text-muted">*Check before submit</small>
+            </div>
+            <button type="submit" class="substituteBtn">Submit</button>
+          </form>
+   
+          <form id="substituteForm1" action="/submit" method="post" style="display: none";>
+            <div class="substitute-view2">
               <label for="substitute-teacher">Select Teacher:</label>
               <select id="substitute-teacher" name="substituteTeacher">
                 <option value="">Search</option>
-                <option value="Dr.BikramJit Sarkar">Dr.BikramJit Sarkar</option>
-                <option value="Dr.Tra Nath">Dr.Ira Nath</option>
-                <option value="Mr. Apurba Paul">Dr. Apurba Paul</option>
-                <option value="Mr. Saikat Samanto">Mr. Saikat Samanto</option>
               </select>
               <br />
               <small class="text-muted">*Check before submit</small>
             </div>
             <button type="submit" class="substituteBtn">Submit</button>
           </form>
+
           <div class="substitute-report" style="display: none">
             <p>Substitute Details</p>
             <div>
@@ -432,10 +422,15 @@
           </form>
           <div class="medical-attendence-report" style="display: none">
             <p>Medical Attendance Details</p>
+            <form id="submitMedicalAttendence">
             <div>
               <label for="medical-attendence-reportTeacher">Name:</label>
               <span id="medical-attendence-reportTeacher"></span>
             </div>
+            <div>
+                <label for="medical-attendence-reportId">College Id:</label>
+                <span id="medical-attendence-reportId"></span>
+              </div>
             <div>
               <label for="medical-attendence-reportBatch">Batch:</label>
               <span id="medical-attendence-reportBatch"></span>
@@ -469,6 +464,7 @@
             </table>
             <button type="button" class="medicalAttendenceBtn">Home</button>
             <button type="submit" class="medicalAttendenceBtn">Submit</button>
+            </form>
           </div>
         </div>
       </div>

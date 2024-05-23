@@ -613,273 +613,107 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async function() {
+  const substituteMenu = document.getElementById("substitute-faculty-menu");
+  const subjectSelect = document.getElementById("substitute-subject");
   const substituteForm = document.getElementById("substituteForm");
-  const substituteSubject = document.getElementById("substitute-subject");
-  const substituteTeacher = document.getElementById("substitute-teacher");
-  const substituteReport = document.querySelector(".substitute-report");
-  const substituteReportSubjectName = document.getElementById("substitute-reportSubjectName");
-  const substituteReportSubjectCode = document.getElementById("substitute-reportSubjectCode");
-  const substituteReportTeacherName = document.getElementById("substitute-reportTeacherName");
+  const substituteForm1 = document.getElementById("substituteForm1");
 
-  substituteForm.addEventListener("submit", (event) => {
-    event.preventDefault();
+  // Add click event listener to the substitute faculty menu link
+  substituteMenu.addEventListener("click", async function(event) {
+    event.preventDefault(); // Prevent the default link behavior
 
-    const selectedSubject = substituteSubject.value;
-    const selectedTeacher = substituteTeacher.value;
+    // Fetch the user ID, day, and access token
+    const userId = localStorage.getItem("userId");
+    const currentDate = new Date();
+    const day = currentDate.toLocaleString('en-US', { weekday: 'long' });
+    const accessToken = localStorage.getItem("access_token");
 
-    if (!selectedSubject || !selectedTeacher) {
-      Toastify({
-        text: "Please fill in both subject and teacher fields.",
-        duration: 3000,
-        close: true,
-        gravity: "top",
-        position: "center",
-        backgroundColor: "#f44336",
-        stopOnFocus: true,
-      }).showToast();
-    } else {
-      const subjectParts = selectedSubject.split(" ", 2);
-      const subjectCode = subjectParts[0];
-      const subjectName = selectedSubject.slice(subjectCode.length).trim();
+    // Construct the URL for the GET request
+    const url = `http://localhost:8080/routine/subject/own?day=${day}&teacherId=${userId}`;
 
-      substituteReportSubjectName.textContent = subjectName;
-      substituteReportSubjectCode.textContent = subjectCode;
-      substituteReportTeacherName.textContent = selectedTeacher;
-
-      substituteForm.style.display = "none";
-      substituteReport.style.display = "block";
-    }
-  });
-
-  substituteReport.querySelector("button").addEventListener("click", () => {
-    substituteForm.style.display = "block";
-    substituteReport.style.display = "none";
-    substituteForm.reset();
-  });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-  var form1 = document.getElementById("medicalAttendenceForm1");
-  var form2 = document.getElementById("medicalAttendenceForm2");
-  var contentDiv = document.getElementById("medical-attendence-content");
-  var reportDiv = contentDiv.querySelector(".medical-attendence-report");
-  var tableBody = document.getElementById("medical-attendance-tableBody");
-
-  function redirectToForm2() {
-    form1.style.display = "none";
-    form2.style.display = "block";
-  }
-
-  // Function to fetch subjects from JSON file based on the collegeId
-  function fetchSubjects() {
-    var collegeId = document.getElementById("medical-attendance").value;
-    // Assuming the JSON file is named 'medicalAttendenceSubjects.json' and is in the same directory
-    fetch("../json/medicalAttendenceSubjects.json")
-      .then((response) => response.json())
-      .then((data) => {
-        var subjectOptions = '<option value="">Search</option>';
-        if (data[collegeId] && data[collegeId].subjects) {
-          data[collegeId].subjects.forEach((subject) => {
-            subjectOptions +=
-              '<option value="' + subject + '">' + subject + "</option>";
-          });
-          document.getElementById("medical-attendence-subject").innerHTML =
-            subjectOptions;
-          redirectToForm2();
-        } else {
-          Toastify({
-            text: "Subjects not found for the given College ID",
-            duration: 3000,
-            close: true,
-            gravity: "top",
-            position: "center",
-            backgroundColor: "#f44336",
-            stopOnFocus: true,
-          }).showToast();
+    try {
+      // Make the GET request with the access token in the headers
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${accessToken}`
         }
-      })
-      .catch((error) => {
-        console.error("Error fetching the subjects:", error);
-        Toastify({
-          text: "Error fetching the subjects",
-          duration: 3000,
-          close: true,
-          gravity: "top",
-          position: "center",
-          backgroundColor: "#f44336",
-          stopOnFocus: true,
-        }).showToast();
       });
-  }
 
-  // Function to fetch attendance data based on the selected subject
-  function fetchAttendanceData(subjectId) {
-    // Assuming the attendance data is fetched from a server-side API
-    // Here we simulate the fetch with static data for demonstration
-    // Replace this with actual API call
-    return new Promise((resolve) => {
-      var attendanceData = [
-        { date: "2024-01-01", status: "Present", classType: "Lecture" },
-        { date: "2024-01-02", status: "Absent", classType: "Lab" },
-        { date: "2024-01-03", status: "Present", classType: "Lecture" },
-        { date: "2024-01-04", status: "Present", classType: "Lecture" },
-        { date: "2024-01-05", status: "Absent", classType: "Lab" },
-        { date: "2024-01-06", status: "Present", classType: "Lecture" },
-        { date: "2024-01-07", status: "Present", classType: "Lecture" },
-        { date: "2024-01-08", status: "Absent", classType: "Lab" },
-        { date: "2024-01-09", status: "Present", classType: "Lecture" },
-        { date: "2024-01-10", status: "Present", classType: "Lecture" },
-      ];
-      resolve(attendanceData);
-    });
-  }
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
 
-  // Function to generate the report
-  function generateReport() {
-    var subjectId = document.getElementById("medical-attendence-subject").value;
-    if (!subjectId) {
-      Toastify({
-        text: "Please select a subject",
-        duration: 3000,
-        close: true,
-        gravity: "top",
-        position: "center",
-        backgroundColor: "#f44336",
-        stopOnFocus: true,
-      }).showToast();
-      return;
-    }
-
-    // Assuming the report details are fetched from a server-side API or database
-    // For simplicity, let's just simulate the report data
-    var reportData = {
-      batch: "Batch 1",
-      semester: "Semester 1",
-      section: "Section A",
-      subject: subjectId, // use the selected subject
-      teacher: "Mr. Smith",
-    };
-
-    // Update the report details in the content div
-    document.getElementById("medical-attendence-reportBatch").innerHTML =
-      reportData.batch;
-    document.getElementById("medical-attendence-reportSemester").innerHTML =
-      reportData.semester;
-    document.getElementById("medical-attendence-reportSection").innerHTML =
-      reportData.section;
-    document.getElementById("medical-attendence-reportSubject").innerHTML =
-      reportData.subject;
-    document.getElementById("medical-attendence-reportTeacher").innerHTML =
-      reportData.teacher;
-
-    // Fetch and populate the table with dynamic data
-    fetchAttendanceData(subjectId).then(populateTable);
-
-    // Show the report div
-    reportDiv.style.display = "block";
-    // Hide form2
-    form2.style.display = "none";
-  }
-
-  // Function to populate the table with dynamic data
-  function populateTable(attendanceData) {
-    // Clear existing table data
-    tableBody.innerHTML = "";
-
-    // Populate table with dynamic data
-    attendanceData.forEach(function (rowData) {
-      var row = document.createElement("tr");
-      var dateCell = document.createElement("td");
-      var statusCell = document.createElement("td");
-      var classTypeCell = document.createElement("td");
-
-      dateCell.textContent = rowData.date;
-      statusCell.innerHTML =
-        '<input type="checkbox" ' +
-        (rowData.status === "Present" ? "checked" : "") +
-        ">";
-      classTypeCell.textContent = rowData.classType;
-
-      row.appendChild(dateCell);
-      row.appendChild(statusCell);
-      row.appendChild(classTypeCell);
-      tableBody.appendChild(row);
-    });
-  }
-
-  // Function to redirect back to form1 when cancel button is clicked
-  function cancelForm2() {
-    form2.style.display = "none";
-    form1.style.display = "block";
-  }
-
-  // Function to redirect back to form1 when home button is clicked
-  function redirectToForm1() {
-    reportDiv.style.display = "none";
-    form1.style.display = "block";
-  }
-
-  // Function to check if form details are filled before submitting
-  function validateForm1() {
-    var collegeId = document.getElementById("medical-attendance").value;
-    if (collegeId === "") {
-      Toastify({
-        text: "Please enter the college Id",
-        duration: 3000,
-        close: true,
-        gravity: "top",
-        position: "center",
-        backgroundColor: "#f44336",
-        stopOnFocus: true,
-      }).showToast();
-      return false;
-    }
-    return true;
-  }
-
-  // Function to check if subject is selected before submitting
-  function validateForm2() {
-    var subject = document.getElementById("medical-attendence-subject").value;
-    if (subject === "") {
-      Toastify({
-        text: "Please select a subject",
-        duration: 3000,
-        close: true,
-        gravity: "top",
-        position: "center",
-        backgroundColor: "#f44336",
-        stopOnFocus: true,
-      }).showToast();
-      return false;
-    }
-    return true;
-  }
-
-  // Add event listeners to the forms
-  form1.addEventListener("submit", function (event) {
-    event.preventDefault();
-    if (validateForm1()) {
-      fetchSubjects();
+      const responseData = await response.json();
+      window.subjectDetails = responseData.subjectList;
+      subjectSelect.innerHTML = '<option value="">Search</option>';
+      responseData.subjectList.forEach((subject, index) => {
+        const option = document.createElement("option");
+        let optionText = `${subject.subCode} ${subject.subName} (${subject.sem}${subject.section}`;
+        if (subject.classType === "Flip") {
+          optionText += " - Flip";
+        }
+        optionText += ")";
+        option.value = index;
+        option.textContent = optionText;
+        subjectSelect.appendChild(option);
+      });
+    } catch (error) {
+      console.error("There was a problem with fetching subjects:", error);
     }
   });
 
-  form2.addEventListener("submit", function (event) {
-    event.preventDefault();
-    if (validateForm2()) {
-      generateReport();
+  substituteForm.addEventListener("submit", async function(event) {
+    event.preventDefault(); // Prevent form submission
+
+    // Fetch selected subject value
+    const selectedIndex = subjectSelect.value;
+    const selectedSubject = window.subjectDetails[selectedIndex];
+
+    // Fetch the access token from localStorage
+    const accessToken = localStorage.getItem("access_token");
+
+    // Construct the URL for the GET request
+    const url = `http://localhost:8080/admin/faculty/all`;
+
+    try {
+      // Make the GET request with the access token in the headers
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${accessToken}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const responseData = await response.json();
+      console.log(responseData); // Log the response data to the console
+
+      // Hide substituteForm and show substituteForm1
+      substituteForm.style.display = "none";
+      substituteForm1.style.display = "block";
+
+      // Fill the select options in substituteForm1 with response data
+      const substituteTeacherSelect = document.getElementById("substitute-teacher");
+      substituteTeacherSelect.innerHTML = '<option value="">Search</option>';
+      responseData.forEach((teacher) => {
+        const option = document.createElement("option");
+        option.value = teacher.mailId;
+        option.textContent = teacher.name;
+        substituteTeacherSelect.appendChild(option);
+      });
+    } catch (error) {
+      console.error("There was a problem with fetching faculty data:", error);
     }
   });
-
-  form2
-    .querySelector('.medicalAttendenceBtn[type="reset"]')
-    .addEventListener("click", cancelForm2);
-
-  // Add event listener to the home button in the report div
-  reportDiv
-    .querySelector('.medicalAttendenceBtn[type="button"]')
-    .addEventListener("click", redirectToForm1);
 });
+
+
+
 
 function setMaxDate() {
   var now = new Date(); // Current UTC date and time
@@ -894,3 +728,154 @@ function setMaxDate() {
 }
 
 document.addEventListener("DOMContentLoaded", setMaxDate);
+
+document.addEventListener("DOMContentLoaded", function () {
+  const form1 = document.getElementById("medicalAttendenceForm1");
+  const form2 = document.getElementById("medicalAttendenceForm2");
+  const reportSection = document.querySelector(".medical-attendence-report");
+
+  form1.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const collegeId = document.getElementById("medical-attendance").value;
+    if(collegeId === ""){
+      showWarningToast("Please enter College Id.");
+      return;
+    }
+    
+    const userId = localStorage.getItem("userId");
+    const accessToken = localStorage.getItem("access_token");
+
+    const url = `http://localhost:8080/routine/subject/all/teacherId?teacherId=${userId}`;
+
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+
+        form1.style.display = "none";
+        form2.style.display = "block";
+
+        const subjectSelect = document.getElementById("medical-attendence-subject");
+        // subjectSelect.innerHTML = "";
+
+        data.subjects.forEach(subject => {
+          const optionText = `${subject.subCode} - ${subject.subName} (${subject.sem}${subject.section})`;
+          const option = new Option(optionText, subject.subCode);
+          subjectSelect.appendChild(option);
+        });
+
+        form2.addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const selectedSubject = document.getElementById("medical-attendence-subject").value;
+
+          const attendanceUrl = `http://localhost:8080/attendance/subject?id=${collegeId}&subCode=${selectedSubject}`;
+
+          try {
+            const attendanceResponse = await fetch(attendanceUrl, {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            });
+
+            if (attendanceResponse.ok) {
+              const attendanceData = await attendanceResponse.json();
+              console.log(attendanceData);
+
+              document.getElementById("medical-attendence-reportTeacher").textContent = attendanceData.name;
+              document.getElementById("medical-attendence-reportId").textContent = attendanceData.collegeId;
+              document.getElementById("medical-attendence-reportBatch").textContent = attendanceData.batch;
+              document.getElementById("medical-attendence-reportSemester").textContent = attendanceData.sem;
+              document.getElementById("medical-attendence-reportSection").textContent = attendanceData.section;
+              document.getElementById("medical-attendence-reportSubject").textContent = selectedSubject;
+
+              const tableBody = document.getElementById("medical-attendance-tableBody");
+              tableBody.innerHTML = "";
+
+              if (attendanceData.statusByDateList && Array.isArray(attendanceData.statusByDateList)) {
+                attendanceData.statusByDateList.forEach(status => {
+                  const row = document.createElement("tr");
+                  row.innerHTML = `
+                    <td>${status.date}</td>
+                    <td><input type="checkbox" ${status.status ? "checked" : ""}></td>
+                    <td>${status.classType}</td>
+                  `;
+                  tableBody.appendChild(row);
+                });
+              }
+
+              reportSection.style.display = "block";
+              form2.style.display = "none";
+            } else {
+              console.error("Error fetching attendance data:", attendanceResponse.statusText);
+            }
+          } catch (error) {
+            console.error("Error fetching attendance data:", error);
+          }
+        });
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  });
+
+document.getElementById("submitMedicalAttendence").addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const attendanceRequests = [];
+    document.querySelectorAll("#medicalAttendenceTable input[type='checkbox']").forEach((checkbox) => {
+      attendanceRequests.push({
+        date: checkbox.closest("tr").querySelector("td:nth-child(1)").textContent,
+        classType: checkbox.closest("tr").querySelector("td:nth-child(3)").textContent,
+        status: checkbox.checked,
+      });
+    });
+
+    const selectedSubject = document.getElementById("medical-attendence-subject").value;
+    const collegeId = document.getElementById("medical-attendance").value;
+
+    if (selectedSubject) {
+      const requestBody = {
+        collegeId: collegeId,
+          subCode: selectedSubject,
+        attendanceRequests: attendanceRequests,
+      };
+
+      console.log(requestBody);
+
+      try {
+        const postResponse = await fetch("http://localhost:8080/attendance/subject/medical", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        });
+
+        console.log(postResponse);
+
+        if (postResponse.ok) {
+          showSuccessToast("Attendance submitted successfully.")
+        } else {
+          showErrorToast("Failed to submit attendance. Please try again.");
+        }
+      } catch (error) {
+        showErrorToast("Failed to submit attendance. Please try again.");
+      }
+    } else {
+      showErrorToast('Please select a subject.')
+    }
+  });
+});
