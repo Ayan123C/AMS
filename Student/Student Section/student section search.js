@@ -40,3 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Error fetching student details:', error));
 });
+
+
+
+document.getElementById('backButton').addEventListener('click', function() {
+    window.history.back();
+});
