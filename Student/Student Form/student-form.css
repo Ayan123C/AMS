@@ -372,3 +372,23 @@ body.dark-theme-variables .box {
   background-color: #cc1429;
   box-shadow: 0 0 0 2px #dc3549, 0 0 0 3px #dc3545;
 }
+
+.asterisk {
+  position: relative;
+  cursor: help;
+}
+
+.asterisk:hover::after {
+  content: "Required field";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  z-index: 999;
+}
