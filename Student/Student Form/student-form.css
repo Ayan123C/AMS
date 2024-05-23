@@ -96,7 +96,7 @@ input {
   width: 2.1875rem;
   height: 2.1875rem;
   background-color: #dcdcdc;
-  /* color: var(--color-white); */
+  color: black;
   border-radius: 50%;
   display: flex;
   justify-content: center;
