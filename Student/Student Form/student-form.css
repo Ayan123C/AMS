@@ -1,13 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
 :root {
-  --primary-color: #5460cd;
-  --secondary-color:#dcdcdc;
-  --hover-primary-background:rgb(50, 50, 232);
-  --color-background: #f6f6f9;
-  --white-background:white;
-  --color-light: rgba(132, 139, 200, 0.18);
-  --box-shadow: 0 2rem 3rem var(--color-light);
+    --color-primary: #7380ec;
+    --color-danger: #ff7782;
+    --color-success: #41f1b6;
+    --color-warning: #ffbb55;
+    --color-white: #fff;
+    --color-info-dark: #7d8da1;
+    --color-info-light: #dce1eb;
+  
+    --color-dark: #363949;
+    --color-light: rgba(132, 139, 200, 0.18);
+    --color-primary-variant: #111e88;
+    --color-dark-variant: #677483;
+    --color-background: #f6f6f9;
+  
+    --card-border-radius: 2rem;
+    --border-radius-1: 0.4rem;
+    --border-radius-2: 0.8rem;
+    --border-radius-3: 1.2rem;
+    --card-padding: 1.8rem;
+    --padding-1: 1.2rem;
+  
+    --box-shadow: 0 2rem 3rem var(--color-light);
+    
+    --hover-primary-background:rgb(50, 50, 232);
+    --secondary-color:#dcdcdc;
+    --primary-color: #5460cd;
+    --color-background: #f6f6f9;
+    --white-background:white;
+    --color-light: rgba(132, 139, 200, 0.18);
+    --box-shadow: 0 2rem 3rem var(--color-light);
+}
 
-
+.dark-theme-variables {
+    --color-background: #181a1e;
+    --color-white: #202528;
+    --color-dark: #edeffd;
+    --color-dark-variant: #a3bdcc;
+    --color-light: rgba(0, 0, 0, 0.4);
+    --box-shadow: 0 2rem 3rem var(--color-light);
 }
 
 *,
@@ -16,9 +48,8 @@
   box-sizing: border-box;
 }
 
-
 body {
-  font-family: Montserrat, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Poppins', sans-serif;
   margin: 0;
   display: grid;
   place-items: center;
@@ -90,8 +121,6 @@ input {
   color: #f3f3f3;
 }
 
-
-
 .form {
   
   width: clamp(70%, 30%, 430px);
@@ -138,7 +167,6 @@ input {
     opacity: 1;
   }
 }
-
 
 .box {
   background-color: var(--white-background);
@@ -228,8 +256,8 @@ input {
 
 .indexing {
   margin-left: 6px;
-  background-color: black;
-  color: white;
+  background-color: var(--color-dark);
+  color: var(--color-white);
   height: 30px;  
   width: 30px;
   border-radius: 50%;  
@@ -335,42 +363,6 @@ body.dark-theme-variables .navbar {
 
 body.dark-theme-variables .box {
   background-color: var(--color-white);
-}
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
-:root {
-    --color-primary: #7380ec;
-    --color-danger: #ff7782;
-    --color-success: #41f1b6;
-    --color-warning: #ffbb55;
-    --color-white: #fff;
-    --color-info-dark: #7d8da1;
-    --color-info-light: #dce1eb;
-  
-    --color-dark: #363949;
-    --color-light: rgba(132, 139, 200, 0.18);
-    --color-primary-variant: #111e88;
-    --color-dark-variant: #677483;
-    --color-background: #f6f6f9;
-  
-    --card-border-radius: 2rem;
-    --border-radius-1: 0.4rem;
-    --border-radius-2: 0.8rem;
-    --border-radius-3: 1.2rem;
-    --card-padding: 1.8rem;
-    --padding-1: 1.2rem;
-  
-    --box-shadow: 0 2rem 3rem var(--color-light);
-}
-
-.dark-theme-variables {
-    --color-background: #181a1e;
-    --color-white: #202528;
-    --color-dark: #edeffd;
-    --color-dark-variant: #a3bdcc;
-    --color-light: rgba(0, 0, 0, 0.4);
-    --box-shadow: 0 2rem 3rem var(--color-light);
 }
 
 .btn-cancel{
