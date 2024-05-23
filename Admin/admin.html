@@ -562,8 +562,8 @@
                             <label for="newRoutinClassType">Select Class Type:</label>
                             <select id="newRoutinClassType" name="newRoutinClassType">
                                 <option value="">Search</option>
-                                <option value="Theory">Theory</option>
-                                <option value="pratical">Pratical</option>
+                                <option value="Theory">Regular</option>
+                                <option value="pratical">Flip</option>
                             </select>
                 
                             <label for="newRoutinTeacher">Select Teacher:</label>
@@ -848,7 +848,7 @@
                             <label class="first-op">Select Operation:</label>
                         </div>
                         <button type="submit" name="action" value="detailsStudent" class="studentBtn widthBtn">Student Details</button>
-                        <a href="../Student/Student Form/student-form.html" name="action" value="addStudent" class="studentBtn widthBtn" style="background-color: #28A745;">Add Student</a>
+                        <a href="../Student/Student Form/student-form.html" name="action" value="addStudent" class="studentBtn widthBtn" style="background-color: #28A745;">Add Student</a>
                         <button type="submit" name="action" value="updateStudent" class="studentBtn widthBtn" style="background-color: #ffc107;">Update Student</button>
                         <button type="submit" name="action" value="deleteStudent" class="studentBtn widthBtn" style="background-color: #dc3545;">Delete Student</button>
                     </form>
@@ -858,6 +858,7 @@
                         </div>
                         <button type="submit" name="action" value="rollNoStudent" class="studentBtn widthBtn">RollNo. Search</button>
                         <button type="submit" name="action" value="sectionStudent" class="studentBtn widthBtn">Section Search</button>
+                        <button type="reset" class="studentBtn" style="background-color: #dc3545;">Cancel</button>
                     </form>
                     <form id="detailsStudentFormRollNo" action="/submit" method="post" style="display: none;">
                         <div class="details-student-from-rollNo">
@@ -918,6 +919,37 @@
                         <button type="submit" class="studentBtn">Submit</button>
                         <button type="reset" class="studentBtn" style="background-color: #dc3545;">Cancel</button>
                     </form>
+                    <form id="deleteStudentForm" action="/submit" method="post" style="display: none;">
+                        <div class="delete-student-from">
+                            <label for="rollNo">Enter JISID:</label>
+                            <input type="text" id="rollNo" name="rollNo" placeholder="Search">
+                            <span id="warningMessage" style="color: red; display: none;">Please enter numeric characters only.</span>
+                            <br>
+                            <small class="text-muted">*Check before submit</small>
+                        </div>
+                        <button type="submit" class="studentBtn">Submit</button>
+                        <button type="reset" class="studentBtn" style="background-color: #dc3545;">Cancel</button>
+                    </form>
+                    <form id="deleteStudentConfirmForm" action="/submit" method="post" style="display: none;">
+                        <div class="delete-student-confirm-from">
+                            <p>Confirm Delete?</p>
+                            <span>This action cannot be <Strong>undone</Strong>. This will permanently delete the student record.</span>
+                        </div>
+                        <button type="submit" id="deleteBtn" style="background-color: #dc3545;">Delete</button>
+                        <button type="button" id="cancelBtn" style="background-color: #9b9a9a;">Cancel</button>
+                    </form>      
+                    <div class="delete-student-report" style="display: none;">
+                        <p>Student Details</p>
+                        <div>
+                            <label for="delete-student-report-name">Name:</label>
+                            <span id="delete-student-name"></span>
+                        </div>
+                        <div>
+                            <label for="delete-student-report-id">Roll Number:</label>
+                            <span id="delete-student-report-id"></span>
+                        </div>
+                        <button type="button" class="studentBtn">Home</button>
+                    </div>
                 </div>
             </div>
             <div id="manage-subjects-content" class="content">
@@ -959,6 +991,7 @@
                             <small class="text-muted">*Check before submit</small>
                         </div>
                         <button type="submit" class="subjectBtn">Submit</button>
+                        <button type="reset" class="subjectBtn" style="background-color: #dc3545;">Cancel</button>
                     </form>
                     <form id="addsubjectsForm1" action="/submit" method="post" style="display: none;">
                         <div class="addsubjects-view1">
@@ -988,6 +1021,7 @@
                             <small class="text-muted">*Check before submit</small>
                         </div>
                         <button type="submit" class="subjectBtn">Submit</button>
+                        <button type="reset" class="subjectBtn" style="background-color: #dc3545;">Cancel</button>
                     </form>
                     <form id="addsubjectsForm2" action="/submit" method="post" style="display: none;">
                         <div class="subjects-view2">
@@ -1033,6 +1067,7 @@
                             <small class="text-muted">*Check before submit</small>
                         </div>
                         <button type="submit" class="subjectBtn">Submit</button>
+                        <button type="reset" class="subjectBtn" style="background-color: #dc3545;">Cancel</button>
                     </form>
                     <form id="removesubjectsForm2" action="/submit" method="post" style="display: none;">
                         <div class="remove-subjects-view2">
