@@ -1608,3 +1608,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('logout-link').addEventListener('click', function(event) {
+        event.preventDefault();
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('role');
+        window.location.href = '../Logout/logout.html';
+    });
+});
