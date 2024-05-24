@@ -497,7 +497,7 @@ document.addEventListener("DOMContentLoaded", () => {
             row.innerHTML = `
               <td>${student.collegeId}</td>
               <td>${student.rollNo}</td>
-              <td>${student.name}</td>
+              <td>${student.firstName+" "+student.lastName}</td>
               <td><input type="checkbox" ${student.status ? "checked" : ""}></td>
               <td>${student.totalPresentClass}</td>
               <td>${student.percentage}</td>
