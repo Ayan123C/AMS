@@ -490,6 +490,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (attendanceResponse.ok) {
           const data = await attendanceResponse.json();
           const tbody = document.querySelector("#data-table tbody");
+          document.getElementById("reportTotalClass").textContent =data.totalClass;
           tbody.innerHTML = "";
           data.presentStatusResponseList.forEach((student) => {
             const row = document.createElement("tr");
