@@ -739,11 +739,11 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault();
 
     const collegeId = document.getElementById("medical-attendance").value;
-    if(collegeId === ""){
+    if (collegeId === "") {
       showWarningToast("Please enter College Id.");
       return;
     }
-    
+
     const userId = localStorage.getItem("userId");
     const accessToken = localStorage.getItem("access_token");
 
@@ -765,7 +765,7 @@ document.addEventListener("DOMContentLoaded", function () {
         form2.style.display = "block";
 
         const subjectSelect = document.getElementById("medical-attendence-subject");
-        // subjectSelect.innerHTML = "";
+        subjectSelect.innerHTML = ""; // Clear any existing options
 
         data.subjects.forEach(subject => {
           const optionText = `${subject.subCode} - ${subject.subName} (${subject.sem}${subject.section})`;
@@ -831,7 +831,38 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-document.getElementById("submitMedicalAttendence").addEventListener("submit", async (event) => {
+  // Add event listener for the cancel button
+  const cancelButton = form2.querySelector("button[type='reset']");
+  if (cancelButton) {
+    cancelButton.addEventListener("click", function () {
+      form2.style.display = "none";
+      form1.style.display = "block";
+    });
+  } else {
+    console.error("Cancel button not found");
+  }
+
+  // Center align submit button in form1
+  const submitButtonForm1 = form1.querySelector("button[type='submit']");
+  if (submitButtonForm1) {
+    submitButtonForm1.style.margin = "auto";
+    submitButtonForm1.style.display = "block";
+  } else {
+    console.error("Submit button in form1 not found");
+  }
+
+  // Add event listener for the home button in report section
+  const homeButton = reportSection.querySelector("button[type='button']");
+  if (homeButton) {
+    homeButton.addEventListener("click", function () {
+      reportSection.style.display = "none";
+      form1.style.display = "block";
+    });
+  } else {
+    console.error("Home button not found");
+  }
+
+  document.getElementById("submitMedicalAttendence").addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const attendanceRequests = [];
@@ -849,7 +880,7 @@ document.getElementById("submitMedicalAttendence").addEventListener("submit", as
     if (selectedSubject) {
       const requestBody = {
         collegeId: collegeId,
-          subCode: selectedSubject,
+        subCode: selectedSubject,
         attendanceRequests: attendanceRequests,
       };
 
@@ -879,4 +910,15 @@ document.getElementById("submitMedicalAttendence").addEventListener("submit", as
       showErrorToast('Please select a subject.')
     }
   });
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('logout-link').addEventListener('click', function(event) {
+      event.preventDefault();
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('role');
+      window.location.href = '../Logout/logout.html';
+    });
 });
