@@ -619,15 +619,15 @@ document.addEventListener("DOMContentLoaded", async function() {
   const subjectSelect = document.getElementById("substitute-subject");
   const substituteForm = document.getElementById("substituteForm");
   const substituteForm1 = document.getElementById("substituteForm1");
+  const substituteReport = document.querySelector(".substitute-report");
+  const day = new Date().toLocaleString('en-US', { weekday: 'long' }); // Fetch current day
 
   // Add click event listener to the substitute faculty menu link
   substituteMenu.addEventListener("click", async function(event) {
     event.preventDefault(); // Prevent the default link behavior
 
-    // Fetch the user ID, day, and access token
+    // Fetch the user ID and access token from localStorage
     const userId = localStorage.getItem("userId");
-    const currentDate = new Date();
-    const day = currentDate.toLocaleString('en-US', { weekday: 'long' });
     const accessToken = localStorage.getItem("access_token");
 
     // Construct the URL for the GET request
@@ -676,7 +676,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     const accessToken = localStorage.getItem("access_token");
 
     // Construct the URL for the GET request
-    const url = `http://localhost:8080/admin/faculty/all`;
+    const url = `http://localhost:8080/faculty/all`;
 
     try {
       // Make the GET request with the access token in the headers
@@ -692,7 +692,6 @@ document.addEventListener("DOMContentLoaded", async function() {
       }
 
       const responseData = await response.json();
-      console.log(responseData); // Log the response data to the console
 
       // Hide substituteForm and show substituteForm1
       substituteForm.style.display = "none";
@@ -711,6 +710,64 @@ document.addEventListener("DOMContentLoaded", async function() {
       console.error("There was a problem with fetching faculty data:", error);
     }
   });
+
+  substituteForm1.addEventListener("submit", async function(event) {
+    event.preventDefault(); // Prevent form submission
+  
+    // Fetch selected teacher value
+    const substituteTeacherSelect = document.getElementById("substitute-teacher");
+    const selectedTeacherName = substituteTeacherSelect.options[substituteTeacherSelect.selectedIndex].textContent;
+  
+    // Fetch selected subject details
+    const selectedSubjectIndex = subjectSelect.value;
+    const selectedSubjectDetails = window.subjectDetails[selectedSubjectIndex];
+  
+    // Fetch the access token from localStorage
+    const accessToken = localStorage.getItem("access_token");
+  
+    // Construct the URL for the POST request to substitute
+    const substituteUrl = `http://localhost:8080/routine/substitute`;
+    const substituteParams = {
+      method: "PUT", // Use PUT method based on your requirement
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        batch: selectedSubjectDetails.batch,
+        sem: selectedSubjectDetails.sem,
+        section: selectedSubjectDetails.section,
+        subCode: selectedSubjectDetails.subCode,
+        classType: selectedSubjectDetails.classType,
+        day: day, // Use the fetched day variable
+        subTeacherId: substituteTeacherSelect.value
+      })
+    };
+  
+    try {
+      // Make the POST request
+      const response = await fetch(substituteUrl, substituteParams);
+  
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+  
+      // Update substitute report with selected details
+      document.getElementById("substitute-reportSubjectName").textContent = selectedSubjectDetails.subName;
+      document.getElementById("substitute-reportSubjectCode").textContent = selectedSubjectDetails.subCode;
+      document.getElementById("substitute-reportTeacherName").textContent = selectedTeacherName;
+  
+      substituteReport.style.display = "block";
+  
+      // Hide substituteForm1 if needed
+      substituteForm1.style.display = "none";
+  
+      console.log("Substitute request successful:", response);
+    } catch (error) {
+      console.error("There was a problem with substitute request:", error);
+    }
+  });
+  
 });
 
 
