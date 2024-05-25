@@ -1619,8 +1619,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-document.getElementById('logout-link').addEventListener('click', function() {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('role');
+document.addEventListener('DOMContentLoaded', function () {
+    const logoutLink = document.getElementById('logout-link');
+    const overlay = document.getElementById('overlay');
+    const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
+    const cancelLogoutBtn = document.getElementById('cancelLogoutBtn');
+    const dashboardMenu = document.getElementById('dashboard-menu');
+
+    logoutLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        overlay.style.display = 'flex';
+    });
+
+    cancelLogoutBtn.addEventListener('click', function () {
+        overlay.style.display = 'none';
+        dashboardMenu.click();
+    });
+
+    confirmLogoutBtn.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('role');
+
+        window.location.href = '../Logout/logout.html';
+    });
 });

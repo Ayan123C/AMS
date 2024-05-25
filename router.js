@@ -3,7 +3,7 @@ $(document).ready(function() {
     loadPage('../Admin/admin');
 
     // Handle navigation clicks
-    $('#logout-link').on('click', function(event) {
+    $('#confirmLogoutBtn').on('click', function(event) {
         event.preventDefault();
         logout();
     });

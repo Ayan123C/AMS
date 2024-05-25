@@ -71,7 +71,7 @@
                     </span>
                     <h3>Manage Subjects</h3>
                 </a>
-                <a href="../Logout/logout.html" id="logout-link">
+                <a href="#" id="logout-link">
                     <span class="material-symbols-outlined">
                         logout
                     </span>
@@ -1152,6 +1152,18 @@
                     </div>
                 </div>
             </div>
+            <div id="overlay">
+                <form id="LogoutConfirmForm" action="/submit" method="post">
+                    <div class="logout-confirm-from">
+                        <p>Confirm Logout?</p>
+                        <span>All unsaved changes will be lost, and you will need to log in again to access your account.</span>
+                        <div>
+                            <button type="submit" id="confirmLogoutBtn" style="background-color: #ec2639;">Logout</button>
+                            <button type="button" id="cancelLogoutBtn" style="background-color: #9b9a9a;">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div> 
         </main>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.1/toastify.min.js"></script> 
