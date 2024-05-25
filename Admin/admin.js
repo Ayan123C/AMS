@@ -1104,6 +1104,140 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// document.addEventListener('DOMContentLoaded', () => {
+//     const manageFacultyForm = document.getElementById('manageFacultyForm');
+//     const addFacultyForm = document.getElementById('addFacultyForm');
+//     const removeFacultyForm = document.getElementById('removeFacultyForm');
+//     const addFacultyReport = document.querySelector('.manage-report-add');
+//     const removeFacultyReport = document.querySelector('.manage-report-remove');
+//     let facultyMap = new Map();
+
+//     const hideAllFormsAndReports = () => {
+//         const formsAndReports = [manageFacultyForm, addFacultyForm, removeFacultyForm, addFacultyReport, removeFacultyReport];
+//         formsAndReports.forEach(element => {
+//             element.style.display = 'none';
+//         });
+//     };
+
+//     const showFormAndHideOthers = (formToShow) => {
+//         hideAllFormsAndReports();
+//         formToShow.style.display = 'block';
+//     };
+
+//     document.querySelector('.op[value="addFaculty"]').addEventListener('click', (event) => {
+//         event.preventDefault();
+//         showFormAndHideOthers(addFacultyForm);
+//     });
+
+//     document.querySelector('.op[value="removeFaculty"]').addEventListener('click', (event) => {
+//         event.preventDefault();
+//         showFormAndHideOthers(removeFacultyForm);
+
+//         fetch('http://localhost:8080/admin/faculty/all')
+//             .then(response => response.json())
+//             .then(data => {
+//                 facultyMap = new Map();
+//                 data.forEach(faculty => {
+//                     facultyMap.set(faculty.name, faculty.mailId);
+//                 });
+
+//                 const teacherSelect = document.getElementById('teacherSelect');
+//                 teacherSelect.innerHTML = '<option value="">Search</option>';
+
+//                 facultyMap.forEach((mailId, name) => {
+//                     const option = document.createElement('option');
+//                     option.value = name;
+//                     option.textContent = name;
+//                     teacherSelect.appendChild(option);
+//                 });
+//             })
+//             .catch(error => console.error('Error fetching faculty data:', error));
+//     });
+
+//     addFacultyForm.addEventListener('submit', (event) => {
+//         event.preventDefault();
+//         const formData = new FormData(event.target);
+//         const facultyName = formData.get('facultyName');
+//         const facultyEmail = formData.get('facultyEmail');
+
+//         const teacherData = {
+//             name: facultyName,
+//             mailId: facultyEmail
+//         };
+
+//         fetch('http://localhost:8080/admin/faculty', {
+//             method: 'POST',
+//             body: JSON.stringify(teacherData),
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             }
+//         }).then(response => {
+//             if (response.status === 201) {
+//                 showSuccessToast('Successful Add Faculty!');
+//                 document.getElementById('manage-report-add-name').textContent = facultyName;
+//                 document.getElementById('manage-report-add-email').textContent = facultyEmail;
+//                 showFormAndHideOthers(addFacultyReport);
+//             } else {
+//                 showErrorToast('Failed to Add Faculty!');
+//             }
+//         }).catch(error => {
+//             console.error(error);
+//             showErrorToast('Failed to Add Faculty!');
+//         });
+//     });
+
+//     removeFacultyForm.addEventListener('submit', (event) => {
+//         event.preventDefault();
+//         const formData = new FormData(event.target);
+//         const facultyName = formData.get('teacherSelect');
+    
+//         if (facultyMap.has(facultyName)) {
+//             const facultyEmail = facultyMap.get(facultyName);
+    
+//             fetch(`http://localhost:8080/admin/faculty/${facultyEmail}`, {
+//                 method: 'DELETE'
+//             }).then(response => {
+//                 if (response.ok) {
+//                     return response.text();
+//                 } else {
+//                     throw new Error('Failed to Remove faculty');
+//                 }
+//             }).then(data => {
+//                 console.log('Backend Response:', data);
+//                 document.getElementById('manage-report-add-remove').textContent = facultyName;
+//                 document.getElementById('manage-report-remove-email').textContent = facultyEmail;
+//                 showSuccessToast('Successful Remove Faculty!');
+//                 showFormAndHideOthers(removeFacultyReport);
+//             }).catch(error => {
+//                 console.error('Error deleting faculty:', error);
+//                 showErrorToast('Error deleting faculty. Please try again later.');
+//             });
+//         } else {
+//             console.error('Faculty Email not found for selected name:', facultyName);
+//             showErrorToast('Faculty Email not found for selected name:');
+//         }
+//     });
+    
+//     document.querySelector('.manage-report-add button').addEventListener('click', () => {
+//         location.reload();
+//     });
+
+//     document.querySelector('.manage-report-remove button').addEventListener('click', () => {
+//         location.reload();
+//     });
+
+//     document.querySelector('#addFacultyForm button[type="reset"]').addEventListener('click', (event) => {
+//         event.preventDefault();
+//         showFormAndHideOthers(manageFacultyForm);
+//         addFacultyForm.reset();
+//     });
+
+//     document.querySelector('#removeFacultyForm button[type="reset"]').addEventListener('click', (event) => {
+//         event.preventDefault();
+//         showFormAndHideOthers(manageFacultyForm);
+//         removeFacultyForm.reset();
+//     });
+// });
 document.addEventListener('DOMContentLoaded', () => {
     const manageFacultyForm = document.getElementById('manageFacultyForm');
     const addFacultyForm = document.getElementById('addFacultyForm');
@@ -1111,6 +1245,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const addFacultyReport = document.querySelector('.manage-report-add');
     const removeFacultyReport = document.querySelector('.manage-report-remove');
     let facultyMap = new Map();
+    const loadingOverlay = document.querySelector('.loading-overlay');
+
+    const accessToken = localStorage.getItem('access_token');
 
     const hideAllFormsAndReports = () => {
         const formsAndReports = [manageFacultyForm, addFacultyForm, removeFacultyForm, addFacultyReport, removeFacultyReport];
@@ -1133,7 +1270,11 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         showFormAndHideOthers(removeFacultyForm);
 
-        fetch('http://localhost:8080/admin/faculty/all')
+        fetch('http://localhost:8080/faculty/all', {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        })
             .then(response => response.json())
             .then(data => {
                 facultyMap = new Map();
@@ -1159,22 +1300,35 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData(event.target);
         const facultyName = formData.get('facultyName');
         const facultyEmail = formData.get('facultyEmail');
+        const facultyShortName=formData.get('facultyShortName');
 
+        loadingOverlay.style.display = 'flex';
+
+        if (!facultyName || !facultyEmail || !facultyName || !facultyShortName) {
+            loadingOverlay.style.display = 'none';
+            showWarningToast('Please select both batch and semester.');
+            return;
+        }
         const teacherData = {
             name: facultyName,
-            mailId: facultyEmail
+            mailId: facultyEmail,
+            shortName:facultyShortName
         };
+        console.log(teacherData);
 
-        fetch('http://localhost:8080/admin/faculty', {
+        fetch('http://localhost:8080/faculty', {
             method: 'POST',
             body: JSON.stringify(teacherData),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
             }
         }).then(response => {
+            loadingOverlay.style.display = 'none';
             if (response.status === 201) {
-                showSuccessToast('Successful Add Faculty!');
+                showSuccessToast('Faculty Added Successful!');
                 document.getElementById('manage-report-add-name').textContent = facultyName;
+                document.getElementById('manage-report-add-shortname').textContent = facultyShortName;
                 document.getElementById('manage-report-add-email').textContent = facultyEmail;
                 showFormAndHideOthers(addFacultyReport);
             } else {
@@ -1190,13 +1344,18 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         const formData = new FormData(event.target);
         const facultyName = formData.get('teacherSelect');
-    
+
+        loadingOverlay.style.display = 'flex';
         if (facultyMap.has(facultyName)) {
             const facultyEmail = facultyMap.get(facultyName);
-    
-            fetch(`http://localhost:8080/admin/faculty/${facultyEmail}`, {
-                method: 'DELETE'
+
+            fetch(`http://localhost:8080/faculty/${facultyEmail}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
             }).then(response => {
+                loadingOverlay.style.display = 'none';
                 if (response.ok) {
                     return response.text();
                 } else {
@@ -1206,7 +1365,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Backend Response:', data);
                 document.getElementById('manage-report-add-remove').textContent = facultyName;
                 document.getElementById('manage-report-remove-email').textContent = facultyEmail;
-                showSuccessToast('Successful Remove Faculty!');
+                showSuccessToast('Faculty Removed Successfully !');
                 showFormAndHideOthers(removeFacultyReport);
             }).catch(error => {
                 console.error('Error deleting faculty:', error);
@@ -1217,7 +1376,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showErrorToast('Faculty Email not found for selected name:');
         }
     });
-    
+
     document.querySelector('.manage-report-add button').addEventListener('click', () => {
         location.reload();
     });
@@ -1238,6 +1397,7 @@ document.addEventListener('DOMContentLoaded', () => {
         removeFacultyForm.reset();
     });
 });
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const studentForm = document.getElementById('studentForm');
@@ -1491,7 +1651,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showWarningToast('Please select both batch and semester.');
             return;
         }
-    
+         
         try {
             const url = `http://localhost:8080/subject?batch=${selectedBatchShow}&sem=${selectedSemesterShow}`;
             const response = await fetch(url, {
