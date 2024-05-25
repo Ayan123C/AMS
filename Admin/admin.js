@@ -1,3 +1,13 @@
+window.onload = function() {
+    const accessToken = localStorage.getItem('access_token');
+    const role = localStorage.getItem('role');
+    const userId = localStorage.getItem('userId');
+
+    if (!accessToken || !role || !userId) {
+        window.location.href = '../Login/login.html';
+    }
+};
+
 document.addEventListener("DOMContentLoaded", function () {
     const sidebarLinks = document.querySelectorAll(".sidebar a");
 
@@ -1609,12 +1619,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('logout-link').addEventListener('click', function(event) {
-        event.preventDefault();
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('role');
-        window.location.href = '../Logout/logout.html';
-    });
+document.getElementById('logout-link').addEventListener('click', function() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('role');
 });
