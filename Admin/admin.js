@@ -1182,7 +1182,6 @@ document.addEventListener('DOMContentLoaded', () => {
             mailId: facultyEmail,
             shortName:facultyShortName
         };
-        console.log(teacherData);
 
         fetch('http://localhost:8080/faculty', {
             method: 'POST',

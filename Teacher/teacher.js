@@ -333,30 +333,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const giveAttendendanceForm2 = document.getElementById("giveAttendendanceForm2");
   const studentAttendanceReport = document.querySelector(".student-attendance-report");
   const giveAttendanceReport = document.querySelector(".give-attendance-report");
-  const rollNumberInput = document.getElementById("rollNumber");
-  const dateInput = document.getElementById("date");
-  const subjectSelect = document.getElementById("subject");
-  const warningMessage = document.getElementById("warningMessage");
+  
+  const accessToken = localStorage.getItem("access_token");
 
-  const showToast = (message) => {
-    Toastify({
-      text: message,
-      duration: 3000,
-      gravity: "top",
-      position: "center",
-      backgroundColor: "#4CAF50",
-    }).showToast();
-  };
 
-  const showErrorToast = (message) => {
-    Toastify({
-      text: message,
-      duration: 3000,
-      gravity: "top",
-      position: "center",
-      backgroundColor: "#f44336",
-    }).showToast();
-  };
 
   attendanceForm.addEventListener("click", (event) => {
     if (event.target.tagName === "BUTTON") {
@@ -372,27 +352,76 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  studentAttendanceForm.addEventListener("submit", (event) => {
+  studentAttendanceForm.addEventListener("submit", async (event) => {
+   
     event.preventDefault();
-    if (!rollNumberInput.value) {
+
+    const rollNumberInput = document.getElementById("rollNumber").value;
+
+    // console.log(rollNumberInput);
+   
+
+    if (!rollNumberInput) {
+      loadingOverlay.style.display = 'none';
       showErrorToast("Please enter the roll number");
     } else {
-      studentAttendanceForm.style.display = "none";
-      studentAttendanceReport.style.display = "block";
-      document.getElementById("student-attendance-report-roll").textContent = rollNumberInput.value;
-      const tableBody = document.getElementById("student-attendance-tableBody");
-      tableBody.innerHTML = "";
-      for (let i = 1; i <= 20; i++) {
-        const row = tableBody.insertRow();
-        row.insertCell(0).textContent = `CS${600 + i}`;
-        row.insertCell(1).textContent = `Subject ${i}`;
-        row.insertCell(2).textContent = Math.floor(Math.random() * 50) + 1;
-        row.insertCell(3).textContent = Math.floor(Math.random() * 50) + 1;
-        row.insertCell(4).textContent = Math.floor(Math.random() * 100) + "%";
+      try {
+        
+        if (!accessToken) {
+          throw new Error("Access token is missing");
+        }
+  
+        const response = await fetch(`http://localhost:8080/attendance/admin/collegeId?collegeId=${rollNumberInput}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${accessToken}`
+          }
+        });
+    
+        
+       if(response.ok){
+        
+        const data = await response.json();
+        
+        // Hide the form and show the report
+        studentAttendanceForm.style.display = "none";
+        studentAttendanceReport.style.display = "block";
+        
+        // Populate student information
+        document.getElementById("student-attendance-report-name").textContent = data.firstName+" "+data.lastName;
+        document.getElementById("student-attendance-report-collegeId").textContent = data.collegeId;
+        document.getElementById("student-attendance-report-roll").textContent = data.rollNo;
+        document.getElementById("student-attendance-report-batch").textContent = data.batch;
+        document.getElementById("student-attendance-report-semester").textContent = data.sem;
+        document.getElementById("student-attendance-report-section").textContent = data.section;
+        
+        // Populate the attendance table
+        const tableBody = document.getElementById("student-attendance-tableBody");
+        tableBody.innerHTML = "";
+        data.studentSubjectAttendanceResponseList.forEach(item => {
+          const row = tableBody.insertRow();
+          row.insertCell(0).textContent = item.subCode;
+          row.insertCell(1).textContent = item.subName;
+          row.insertCell(2).textContent = item.totalClass;
+          row.insertCell(3).textContent = item.presentClass;
+          row.insertCell(4).textContent = item.percentage;
+        });
+        
+        showSuccessToast("Report successfully generated");
       }
-      showToast("Report successfully generated");
+      else{
+        showErrorToast("No Student Present With Id: "+rollNumberInput);
+      }
+      } catch (error) {
+        console.error("Error fetching attendance data:", error);
+        showErrorToast("Failed to generate report. Please try again later.");
+      }
     }
   });
+
+
+  
 
   studentAttendanceForm.querySelector('button[type="reset"]').addEventListener("click", () => {
     studentAttendanceForm.style.display = "none";
@@ -605,13 +634,7 @@ document.addEventListener("DOMContentLoaded", () => {
       attendanceForm.style.display = "block";
     });
 
-  rollNumberInput.addEventListener("input", () => {
-    if (isNaN(rollNumberInput.value)) {
-      warningMessage.style.display = "inline";
-    } else {
-      warningMessage.style.display = "none";
-    }
-  });
+ 
 });
 
 document.addEventListener("DOMContentLoaded", async function() {
