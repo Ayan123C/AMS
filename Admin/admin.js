@@ -1388,7 +1388,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-
+/*
 document.addEventListener('DOMContentLoaded', () => {
     const managesubjectsForm = document.getElementById('managesubjectsForm');
     const showsubjectsForm = document.getElementById('showsubjectsForm');
@@ -1587,6 +1587,366 @@ document.addEventListener('DOMContentLoaded', () => {
 
         showSuccessToast('Subject removed successfully!');
     });
+
+    homeButtonShow.addEventListener('click', () => {
+        location.reload();
+    });
+
+    homeButtonAdd.addEventListener('click', () => {
+        location.reload();
+    });
+
+    homeButtonRemove.addEventListener('click', () => {
+        location.reload();
+    });
+
+    cancelButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+            managesubjectsForm.style.display = 'inherit';
+            showsubjectsForm.style.display = 'none';
+            addsubjectsForm1.style.display = 'none';
+            addsubjectsForm2.style.display = 'none';
+            removesubjectsForm1.style.display = 'none';
+            removesubjectsForm2.style.display = 'none';
+
+            showsubjectsForm.reset();
+            addsubjectsForm1.reset();
+            addsubjectsForm2.reset();
+            removesubjectsForm1.reset();
+            removesubjectsForm2.reset();
+        });
+    });
+});
+*/
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const managesubjectsForm = document.getElementById('managesubjectsForm');
+    const showsubjectsForm = document.getElementById('showsubjectsForm');
+    const showsubjectsReport = document.querySelector('.showsubjects-report');
+    const subjectTableBody = document.getElementById('show-subjects-tableBody');
+    const homeButtonShow = document.querySelector('.showsubjects-report .subjectBtn');
+
+    const addsubjectsForm1 = document.getElementById('addsubjectsForm1');
+    const addsubjectsForm2 = document.getElementById('addsubjectsForm2');
+    const addsubjectsReport = document.querySelector('.addsubjects-report');
+    const homeButtonAdd = document.querySelector('.addsubjects-report .subjectBtn');
+    const cancelButton = document.querySelector('#addsubjectsForm2 button[type="reset"]');
+
+    const removesubjectsForm1 = document.getElementById('removesubjectsForm1');
+    const removesubjectsForm2 = document.getElementById('removesubjectsForm2');
+    const removesubjectsReport = document.querySelector('.removesubjects-report');
+    const homeButtonRemove = document.querySelector('.removesubjects-report .subjectBtn');
+    const cancelButtons = document.querySelectorAll('.subjectBtn[type="reset"]');
+
+    const accessToken = localStorage.getItem('access_token');
+
+    let selectedBatchShow = '';
+    let selectedSemesterShow = '';
+    let selectedCode = '';
+    let selectedSubject = '';
+    let selectedBatchAdd = '';
+    let selectedSemesterAdd = '';
+    let selectedBatchRemove = '';
+    let selectedSemesterRemove = '';
+
+    document.querySelectorAll('.op').forEach(btn => {
+        btn.addEventListener('click', (event) => {
+            event.preventDefault();
+            const action = event.target.value;
+
+            if (action === 'showsubjects') {
+                managesubjectsForm.style.display = 'none';
+                showsubjectsForm.style.display = 'block';
+                populateBatchMenu(showsubjectsForm);
+            } else if (action === 'addsubjects') {
+                managesubjectsForm.style.display = 'none';
+                addsubjectsForm1.style.display = 'block';
+                populateBatchMenu(addsubjectsForm1);
+            } else if (action === 'removesubjects') {
+                managesubjectsForm.style.display = 'none';
+                removesubjectsForm1.style.display = 'block';
+                populateBatchMenu(removesubjectsForm1);
+            }
+        });
+    });
+
+    function fetchBatches() {
+        const currentYear = new Date().getFullYear();
+        const currentMonth = new Date().getMonth() + 1; // getMonth() returns 0-based index
+
+        // Generate batches based on current year
+        const batches = [];
+        for (let i = 0; i < 5; i++) {
+            const startYear = currentYear - 4 + i;
+            const endYear = startYear + 4;
+            batches.push(`${startYear}-${endYear}`);
+        }
+
+        // Conditionally return the last 4 or first 4 batches based on current month
+        if (currentMonth > 6) {
+            return batches.slice(1); // Return last 4 batches
+        } else {
+            return batches.slice(0, 4); // Return first 4 batches
+        }
+    }
+
+    // Function to populate the batch menu
+    function populateBatchMenu(form) {
+        try {
+            const batchSelect = form.querySelector('select[name="batch"]');
+            const batches = fetchBatches();
+
+            // Clear any existing options
+            batchSelect.innerHTML = '<option value="">Search</option>';
+
+            // Add new options
+            batches.forEach(batch => {
+                const option = document.createElement('option');
+                option.value = batch;
+                option.textContent = batch;
+                batchSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error fetching batch data:', error);
+        }
+    }
+
+    showsubjectsForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const selectedBatchShow = formData.get('batch');
+        const selectedSemesterShow = formData.get('semester');
+    
+        if (!selectedBatchShow || !selectedSemesterShow) {
+            showWarningToast('Please select both batch and semester.');
+            return;
+        }
+    
+        try {
+            const url = `http://localhost:8080/subject?batch=${selectedBatchShow}&sem=${selectedSemesterShow}`;
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+    
+            if (response.ok) {
+                const subjects = await response.json();
+    
+                if (subjects.length > 0) {
+                    subjectTableBody.innerHTML = '';
+    
+                    subjects.forEach(subject => {
+                        const row = document.createElement('tr');
+                        const codeCell = document.createElement('td');
+                        codeCell.textContent = subject.subCode;
+                        row.appendChild(codeCell);
+    
+                        const nameCell = document.createElement('td');
+                        nameCell.textContent = subject.subName;
+                        row.appendChild(nameCell);
+    
+                        subjectTableBody.appendChild(row);
+                    });
+    
+                    showsubjectsReport.style.display = 'block';
+                    showsubjectsForm.style.display = 'none';
+    
+                    const showsubjectsReportBatch = document.getElementById('showsubjects-reportBatch');
+                    const showsubjectsReportSemester = document.getElementById('showsubjects-reportSemester');
+                    showsubjectsReportBatch.textContent = selectedBatchShow;
+                    showsubjectsReportSemester.textContent = selectedSemesterShow;
+                } else {
+                    showErrorToast('No subjects found for the selected batch and semester.');
+                }
+            } else {
+                throw new Error('Failed to fetch subjects.');
+            }
+        } catch (error) {
+            console.error('Error fetching subjects:', error);
+            showErrorToast('Error fetching subjects. Please try again later.');
+        }
+    });
+    
+
+    addsubjectsForm1.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        selectedBatchShow = formData.get('batch');
+        selectedSemesterShow = formData.get('semester');
+
+        if (!selectedBatchShow || !selectedSemesterShow) {
+            showWarningToast('Please select both batch and semester.');
+            return;
+        }
+
+        addsubjectsForm1.style.display = 'none';
+        addsubjectsForm2.style.display = 'block';
+    });
+
+  addsubjectsForm2.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    selectedCode = formData.get('subject-code');
+    selectedSubject = formData.get('subject');
+
+
+    console.log(selectedBatchShow+" "+selectedSemesterShow+" "+selectedCode+" "+selectedSubject);
+
+    if (!selectedBatchShow || !selectedSemesterShow|| !selectedCode || !selectedSubject) {
+        showWarningToast('Please fill in all fields.');
+        return;
+    }
+
+    try {
+        
+        const url = 'http://localhost:8080/subject/admin';
+        const body = {
+            subCode: selectedCode,
+            subName: selectedSubject,
+            sem: selectedSemesterShow,
+            batch: selectedBatchShow
+        };
+
+        // Retrieve access token from local storage
+       
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+                // Add any other headers as needed
+            },
+            body: JSON.stringify(body)
+        });
+
+        // Check if the request was successful
+        if (response.ok) {
+            const reportBatchSpan = document.getElementById('addsubjects-reportBatch');
+            const reportSemesterSpan = document.getElementById('addsubjects-reportSemester');
+            const reportCodeSpan = document.getElementById('addsubjects-reportCode');
+            const reportSubjectSpan = document.getElementById('addsubjects-reportSubject');
+
+            reportBatchSpan.textContent = selectedBatchShow;
+            reportSemesterSpan.textContent = selectedSemesterShow;
+            reportCodeSpan.textContent = selectedCode;
+            reportSubjectSpan.textContent = selectedSubject;
+
+            addsubjectsForm2.style.display = 'none';
+            addsubjectsReport.style.display = 'block';
+
+            showSuccessToast('Subject added successfully!');
+        }
+        else if(response.status === 406) {
+                showErrorToast('Subject already exists. You can update existing subjects.');
+        }
+        else {
+            throw new Error('Failed to add subject. Please try again later.');
+        }
+    } catch (error) {
+        console.error('Error adding subject:', error);
+        showErrorToast('Failed to add subject. Please try again later.');
+    }
+});
+removesubjectsForm1.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+     selectedBatchRemove = formData.get('batch');
+     selectedSemesterRemove = formData.get('semester');
+
+    if (!selectedBatchRemove || !selectedSemesterRemove) {
+        showWarningToast('Please select both batch and semester.');
+        return;
+    }
+
+    try {
+        const url = `http://localhost:8080/subject?batch=${selectedBatchRemove}&sem=${selectedSemesterRemove}`;
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+
+        if (response.ok) {
+            const subjects = await response.json();
+            const subjectSelect = removesubjectsForm2.querySelector('#removesubjects-subject');
+
+            if (subjectSelect) {
+                subjectSelect.innerHTML = '';
+
+                subjects.forEach(subject => {
+                    const option = document.createElement('option');
+                    option.value = subject.subCode; // Assuming subCode is the value to be used
+                    option.textContent = subject.subCode+" "+subject.subName; // Assuming subName is the text content
+                    subjectSelect.appendChild(option);
+                });
+
+                removesubjectsForm1.style.display = 'none';
+                removesubjectsForm2.style.display = 'block';
+            } else {
+                console.error('Error: Subject select element not found.');
+                showErrorToast('Error fetching subjects. Please try again.');
+            }
+        } else {
+            throw new Error('Failed to fetch subjects.');
+        }
+    } catch (error) {
+        console.error('Error fetching subjects:', error);
+        showErrorToast('Error fetching subjects. Please try again.');
+    }
+});
+
+
+removesubjectsForm2.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const selectedSubject = formData.get('subject');
+
+    if (!selectedSubject) {
+        showWarningToast('Please select a subject.');
+        return;
+    }
+
+    // console.log(selectedBatchRemove+" "+selectedSubject+" "+selectedSemesterRemove);
+
+    try {
+        const url = `http://localhost:8080/subject/admin/${selectedBatchRemove}/${selectedSubject}`;
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+
+        if (response.ok) {
+            const reportBatchSpan = document.getElementById('removesubjects-reportBatch');
+            const reportSemesterSpan = document.getElementById('removesubjects-reportSemester');
+            const reportSubjectSpan = document.getElementById('removesubjects-reportSubject');
+
+            reportBatchSpan.textContent = selectedBatchRemove;
+            reportSemesterSpan.textContent = selectedSemesterRemove;
+            reportSubjectSpan.textContent = selectedSubject;
+
+            removesubjectsForm2.style.display = 'none';
+            removesubjectsReport.style.display = 'block';
+
+            showSuccessToast('Subject removed successfully!');
+        } else {
+            throw new Error('Failed to delete subject.');
+        }
+    } catch (error) {
+        console.error('Error deleting subject:', error);
+        showErrorToast('Failed to delete subject. Please try again.');
+    }
+});
+
 
     homeButtonShow.addEventListener('click', () => {
         location.reload();
