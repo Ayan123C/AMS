@@ -333,7 +333,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const giveAttendendanceForm2 = document.getElementById("giveAttendendanceForm2");
   const studentAttendanceReport = document.querySelector(".student-attendance-report");
   const giveAttendanceReport = document.querySelector(".give-attendance-report");
-  
+  const subjectSelect =document.getElementById("subject");
+
   const accessToken = localStorage.getItem("access_token");
 
 
@@ -362,7 +363,7 @@ document.addEventListener("DOMContentLoaded", () => {
    
 
     if (!rollNumberInput) {
-      loadingOverlay.style.display = 'none';
+      
       showErrorToast("Please enter the roll number");
     } else {
       try {
@@ -371,7 +372,7 @@ document.addEventListener("DOMContentLoaded", () => {
           throw new Error("Access token is missing");
         }
   
-        const response = await fetch(`http://localhost:8080/attendance/admin/collegeId?collegeId=${rollNumberInput}`, {
+        const response = await fetch(`http://localhost:8080/attendance/Id?collegeId=${rollNumberInput}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
