@@ -1,5 +1,5 @@
 const loadingOverlay = document.querySelector('.loading-overlay');
-document.getElementById('loginForm').addEventListener('submit', function(event) {
+document.getElementById('loginForm').addEventListener('submit', function (event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const jsonData = JSON.stringify({
@@ -16,37 +16,65 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         },
         body: jsonData
     })
-    .then(response => {
-        if (response.status === 403) {
-            throw new Error('User ID and password do not match.');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.access_token) {
-            localStorage.setItem('access_token', data.access_token);
-        }
-        if(data.userId){
-            localStorage.setItem('userId',data.userId);
-        }
-        if (data.role) {
-            localStorage.setItem('role', data.role);
-            if (data.role === 'STUDENT') {
-                window.location.href = '../Student/student.html';
-            } else if (data.role === 'TEACHER') {
-                window.location.href = '../Teacher/teacher.html';
-            } else if (data.role === 'ADMIN') {
-                window.location.href = '../Admin/admin.html';
+        .then(response => {
+            if (response.status === 403) {
+                throw new Error('User ID and password do not match.');
             }
-        }
-    })
-    .catch((error) => {
-        
-        loadingOverlay.style.display = 'none';
-        if (error.message === 'User ID and password do not match.') {
-            showErrorToast(error.message);
-        }
-    });
+            return response.json();
+        })
+        .then(data => {
+            if (data.access_token) {
+                localStorage.setItem('access_token', data.access_token);
+            }
+            if (data.userId) {
+                localStorage.setItem('userId', data.userId);
+            }
+            if (data.role) {
+                localStorage.setItem('role', data.role);
+                // if (data.role === 'STUDENT') {
+
+                //     window.location.href = '../Student/student.html';
+                // } 
+                if (data.role === 'STUDENT') {
+                    const userId = localStorage.getItem('userId');
+                    if (userId) {
+                        console.log("hello");
+                        const apiUrl = `http://localhost:8080/student/profile/collegeId?collegeId=${userId}`; // Added http:// to the URL
+                        fetch(apiUrl, {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${data.access_token}`
+                            }
+                        })
+                            .then(response => response.json())
+                            .then(profileData => {
+                                console.log('Profile Data:', profileData);
+                                const jsonString = encodeURIComponent(JSON.stringify(profileData));
+                                window.location.href = `../Student/student.html?data=${jsonString}`;
+                            })
+
+
+                            .catch(error => {
+                                console.error('Error:', error);
+                                // Handle errors
+                            });
+                    }
+                }
+
+                else if (data.role === 'TEACHER') {
+                    window.location.href = '../Teacher/teacher.html';
+                } else if (data.role === 'ADMIN') {
+                    window.location.href = '../Admin/admin.html';
+                }
+            }
+        })
+        .catch((error) => {
+
+            loadingOverlay.style.display = 'none';
+            if (error.message === 'User ID and password do not match.') {
+                showErrorToast(error.message);
+            }
+        });
 });
 
 const showErrorToast = (message) => {
