@@ -410,8 +410,8 @@ main {
   margin: 0.5rem 0;
 }
 
-.co-add{
-  width: 100%;
+.co-add,.add{
+  width: 91%;
 }
 
 #current-address-label {
