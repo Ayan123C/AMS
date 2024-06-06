@@ -410,6 +410,10 @@ main {
   margin: 0.5rem 0;
 }
 
+.co-add{
+  width: 100%;
+}
+
 #current-address-label {
   text-align: start;
 }
