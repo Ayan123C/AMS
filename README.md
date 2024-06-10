@@ -11,6 +11,9 @@ The Attendance Management System (AMS) is a comprehensive solution tailored to t
 - **Real-time Attendance Tracking**: Instant recording and updating of attendance data.
 - **Comprehensive Reporting**: Generate detailed attendance reports.
 
+## UI
+
+
 ## Benefits
 
 ### For Administrators
@@ -50,7 +53,7 @@ The Attendance Management System (AMS) is a comprehensive solution tailored to t
 ### Prerequisites
 
 1. Ensure you have a `Java17 or more` installed.
-2. Ensure you have a database server (MySQL or PostgreSQL) installed.
+2. Ensure you have a database server (PostgreSQL) installed.
 
 ### Steps
 
@@ -81,10 +84,10 @@ The Attendance Management System (AMS) is a comprehensive solution tailored to t
 ## Contributors
 
  * [@Baivab Sarkar](https://github.com/ThisIs-Developer) 
- * [@Arpan Bhattacharya](https://github.com/Arpan550)
- * [@Bhishmadev Ghosh](https://github.com/bhishma620)
  * [@Ayan Chatterjee](https://github.com/Ayan123C)
  * [@Ayan Kumar Dey](https://github.com/AyanKumarDey)
+ * [@Bhishmadev Ghosh](https://github.com/bhishma620)
+ * [@Arpan Bhattacharya](https://github.com/Arpan550)
 ## License
 
 This project is licensed under the `Apache-2.0 License`. See the [LICENSE](LICENSE) file for more details.
