@@ -12,7 +12,15 @@ The Attendance Management System (AMS) is a comprehensive solution tailored to t
 - **Comprehensive Reporting**: Generate detailed attendance reports.
 
 ## UI
-
+<img src="https://github.com/iam-baivab/AMS/assets/169576921/6db5a434-46f6-4b5b-9327-095f82d29569" alt="screen_1" height="400" width="200">
+<img src="https://github.com/iam-baivab/AMS/assets/169576921/97a5a836-b1ae-42ec-be7a-1f871a63269a" alt="screen_2" height="400" width="200">
+<img src="https://github.com/iam-baivab/AMS/assets/169576921/b21ed68e-37d4-4a40-a49d-62f0e5d7762f" alt="screen_3" height="400" width="200">
+<img src="https://github.com/iam-baivab/AMS/assets/169576921/814196de-12ee-4688-9cff-7d1ecb7989d6" alt="screen_4" height="400" width="200">
+<br>
+<img src="https://github.com/iam-baivab/AMS/assets/169576921/3084fc93-5b85-49ca-ae86-4953ccb3fd5f" alt="screen_5" height="400" width="200">
+<img src="https://github.com/iam-baivab/AMS/assets/169576921/680ca969-a8ab-4018-9887-86fb8ba2af87" alt="screen_6" height="400" width="200">
+<img src="https://github.com/iam-baivab/AMS/assets/169576921/9bdf387e-33a6-4c38-8403-a33421a43fd1" alt="screen_7" height="400" width="200">
+<img src="https://github.com/iam-baivab/AMS/assets/169576921/6dbde8c0-1ad4-42bc-a75b-846520510ad5" alt="screen_8" height="400" width="200">
 
 ## Benefits
 
