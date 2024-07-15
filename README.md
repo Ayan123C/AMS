@@ -1,9 +1,9 @@
-# Attendance Management System (AMS)
+# Academic Management System (AMS)
 [![Apache 2.0 License][license-shield]][license-url]
 
 ## Introduction
 
-The Attendance Management System (AMS) is a comprehensive solution tailored to the specific needs of educational institutions for recording, tracking, and analyzing attendance data. Leveraging cutting-edge technology, the AMS aims to simplify attendance management tasks, enhance accuracy, and improve operational efficiency.
+The Academic Management System (AMS) is a comprehensive solution tailored to the specific needs of educational institutions for recording, tracking, and analyzing attendance data. Leveraging cutting-edge technology, the AMS aims to simplify attendance management tasks, enhance accuracy, and improve operational efficiency.
 
 ## Key Features
 
