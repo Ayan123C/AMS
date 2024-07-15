@@ -91,7 +91,7 @@ The Academic Management System (AMS) is a comprehensive solution tailored to the
 
 ## Contributors
 
- * [@Baivab Sarkar](https://github.com/ThisIs-Developer) 
+ * [@Baivab Sarkar](https://github.com/iam-baivab) 
  * [@Ayan Chatterjee](https://github.com/Ayan123C)
  * [@Ayan Kumar Dey](https://github.com/AyanKumarDey)
  * [@Bhishmadev Ghosh](https://github.com/bhishma620)
